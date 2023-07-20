@@ -1,0 +1,41 @@
+.left-div {
+    display: flex;
+    margin-left: 30px;
+  }
+  
+  .image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 40px; 
+    text-align: center;
+  }
+
+  .small-image {
+    flex: 0 0 auto;
+    width: 230px; 
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .left-div,
+  .right-div,
+  .image-wrapper,
+  .image-button {
+    color: white;
+  }
+
+
+  .star {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Empty_Star.svg/1024px-Empty_Star.svg.png');
+    background-size: cover;
+    margin-right: 2px;
+    pointer-events: auto;
+  }
+  
+  .star.filled {
+    background-image: url('https://pixlok.com/wp-content/uploads/2021/07/Rating-SVG-Icon-s9fd-300x300.png');
+  }

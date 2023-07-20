@@ -1,0 +1,87 @@
+<br>
+
+<form [formGroup]="editForm">
+<div class="centered-div">
+    <div class="paragraph-container">
+        <p>
+            Please update your details:
+         </p>
+        <p>
+            <mat-form-field>
+                <mat-label>Address Line 1</mat-label>
+                <input matInput formControlName="address1">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Address Line 2</mat-label>
+                <input matInput formControlName="address2">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Postal Code</mat-label>
+                <input matInput formControlName="postal">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phone">
+            </mat-form-field>
+        </p>
+      </div>
+
+</div>
+<hr>
+<p class="centered-paragraph">
+    Select a plan: 
+</p>
+
+<div class="centered-chip-listbox">
+    <mat-chip-listbox aria-label="Genre selection" formControlName="plan">
+        <mat-chip-option color="primary">Monthly</mat-chip-option>
+        <mat-chip-option color="primary">Quarterly</mat-chip-option>
+        <mat-chip-option color="primary">Annually</mat-chip-option>
+
+    </mat-chip-listbox>
+</div>
+
+
+<br>
+
+<p class="centered-paragraph">
+    Select a genre for your first album:
+</p>
+
+
+<div class="centered-chip-listbox">
+    <!-- <mat-chip-listbox aria-label="Genre selection" [value]="selectedOptions" (selectionChange)="onSelectionChange($event)" multiple> -->
+    <mat-chip-listbox aria-label="Genre selection" formControlName="genre">
+        <mat-chip-option color="warn">Pop</mat-chip-option>
+        <mat-chip-option color="warn">Rock</mat-chip-option>
+        <mat-chip-option color="warn">Classical</mat-chip-option>
+        <mat-chip-option color="warn">Country</mat-chip-option>
+        <mat-chip-option color="warn">R&B</mat-chip-option>
+        <mat-chip-option color="warn">Alternative/Indie</mat-chip-option>
+        <mat-chip-option color="warn">Hip Hop</mat-chip-option>
+        <mat-chip-option color="warn">Jazz</mat-chip-option>
+        <mat-chip-option color="warn">Heavy Metal</mat-chip-option>
+        <mat-chip-option color="warn">Reggae</mat-chip-option>
+        <mat-chip-option color="warn">Disco</mat-chip-option>
+        <mat-chip-option color="warn">Dance/Electronic</mat-chip-option>
+        <mat-chip-option color="warn">K-Pop</mat-chip-option>
+        <mat-chip-option color="warn">J-Pop</mat-chip-option>
+        <mat-chip-option color="warn">Techno</mat-chip-option>
+    </mat-chip-listbox>
+</div>
+<br>
+<p class="centered-paragraph">
+    *You can update your preference later on if you change your mind.
+</p>
+<br>
+<p class="centered-paragraph">
+    <button mat-raised-button color="warn" routerLink="/summary">Back</button>
+    <span class="span-space"></span>
+    <button mat-raised-button color="accent" (click)="saveForm()">Save</button>
+</p>
+
+
+</form>

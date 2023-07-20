@@ -1,0 +1,59 @@
+
+.container {
+  display: flex;
+}
+
+.left-div {
+  flex: 1;
+  width: 300px;
+  margin-left:40px;
+}
+
+.right-div {
+  flex: 2;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.small-image {
+  flex: 0 0 auto;
+  width: 230px; 
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.banner {
+  flex: 0 0 auto;
+  width: 800px; 
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px; 
+  text-align: center;
+}
+
+.image-button {
+  margin-top: 10px;
+}
+
+body {
+  color: white;
+}
+
+.container,
+.left-div,
+.right-div,
+.image-container,
+.image-wrapper,
+.image-button {
+  color: white;
+}
+

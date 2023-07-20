@@ -1,0 +1,29 @@
+<div class="centered-div">
+    <h2>My Account</h2>
+</div>
+
+<div class="card-container" *ngIf="user">
+    <mat-card>
+      <mat-card-content>
+        <div class="user-info">
+          <div>
+            <p><strong>First Name:</strong> {{ user.fname }}</p>
+            <p><strong>Last Name:</strong> {{ user.lname }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          </div>
+          <div>
+            <p><strong>Address:</strong> {{ user.address1 }}, {{ user.address2 }}, Singapore {{ user.postal }}</p>
+            <p><strong>Phone:</strong> {{ user.phone }}</p>
+            <p><strong>Genre:</strong> {{ user.genre }}</p>
+            <p><strong>Plan:</strong> {{ user.plan }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+<br>
+ <div class="centered-div">
+    <button mat-raised-button color="accent" (click)="editDetails()">Edit Details</button>
+    <span class="button-space"></span>
+    <button mat-raised-button color="warn" (click)="editDetails()">Cancel Subscription</button>
+ </div>

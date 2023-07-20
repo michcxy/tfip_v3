@@ -1,0 +1,32 @@
+
+  <p>
+    <mat-toolbar color="primary">
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="span-space custom-font-size" routerLink="/home">Discover</span>
+      <span class="span-space custom-font-size" *ngIf="!isLoggedIn" routerLink="/join">Join The Club</span>
+      <span class="example-spacer"></span>
+      <div *ngIf="isLoggedIn">
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item class="custom-font-size" routerLink="/summary">My Account</button>
+          <button mat-menu-item class="custom-font-size" routerLink="/history">Order History</button>
+          <button mat-menu-item class="custom-font-size" (click)="logout()">Logout</button>
+          </mat-menu>
+        
+          <button mat-button [matMenuTriggerFor]="userMenu">
+            Hi {{ (user$ | async)?.fname }}
+            <mat-icon class="arrow-icon custom-font-size">keyboard_arrow_down</mat-icon>
+          </button>
+      </div>
+      <span class="span-space custom-font-size" *ngIf="!isLoggedIn" (click)="openLoginDialog()">Login / Sign up</span>
+      <!-- <span class="span-space custom-font-size" *ngIf="!isLoggedIn" (click)="openSignupDialog()">Sign up</span> -->
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with cart icon">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
+  </p>
+

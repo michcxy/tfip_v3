@@ -1,0 +1,28 @@
+.card-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  mat-card {
+    width: 50%;
+    background-color: blueviolet;
+  }
+
+  .user-info {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .user-info > div {
+    flex-basis: 50%;
+  }
+
+  .centered-div {
+    text-align: center;
+  }
+
+  .button-space {
+    margin-left: 20px; 
+  }
+  
+  

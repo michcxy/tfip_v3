@@ -1,0 +1,115 @@
+<head>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<style>
+    .centered-div, .centered-paragraph, .centered-chip-listbox, mat-label, input {
+      color: white;
+    }
+  </style>
+  <br>
+<form [formGroup]="signupForm">
+    <div class="centered-div">
+      <div class="form-container">
+        <div class="form-column">
+            <h1>Order Summary</h1>
+            <div class="image-wrapper">
+                <img src="https://media.takealot.com/covers_images/69671052c8f1491d9e85af472e678bb2/s-pdpxl.file">
+            </div>
+            <br>
+            <br>
+            <div class="text-wrapper">
+                <div class="line">
+                    <div>
+                        <h3>For The Record {{this.plan}} Subscription</h3>
+                    </div>
+                    <div class="price" *ngIf="plan === 'Monthly'">$ 43.90</div>
+                    <div class="price" *ngIf="plan === 'Quarterly'">$ 125.70</div>
+                    <div class="price" *ngIf="plan === 'Annually'">$ 478.80</div>
+                </div>
+                <div class="line">
+                    <div class="price" *ngIf="plan === 'Monthly'"><h5>Auto-renewing month to month plan @ $34.90/mo</h5></div>
+                    <div class="price" *ngIf="plan === 'Quarterly'"><h5>Auto-renewing 3-month plan @ $34.90/mo</h5></div>
+                    <div class="price" *ngIf="plan === 'Annually'"><h5>Auto-renewing 12-month plan @ $29.90/mo</h5></div>
+                    
+                </div>
+                <br>
+                <div class="line">
+                    <h5>*Prices include shipping & handling</h5>
+                </div>
+                <hr>
+                <div class="line">
+                    <div>
+                        <h2>Total:</h2>
+                    </div>
+                    <div class="price">$ {{total | number: '1.2-2'}}</div>
+                </div>
+            </div>
+          </div>
+        <div class="form-column">
+            <br>
+            <br>
+            <mat-icon>account_circle</mat-icon>
+            <h2>Create your account</h2>
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="fname">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lname">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-error *ngIf="signupForm.get('email')?.hasError('notUnique')">Email already exists.</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password">
+          </mat-form-field>
+        </div>
+        <div class="form-column">
+            <br>
+            <br>
+            <mat-icon>location_on</mat-icon>
+            <h2> Fill in your details  </h2>
+          <mat-form-field>
+            <mat-label>Address Line 1</mat-label>
+            <input matInput formControlName="address1">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Address Line 2</mat-label>
+            <input matInput formControlName="address2">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Postal Code</mat-label>
+            <input matInput formControlName="postal">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone">
+          </mat-form-field>
+        </div>
+      </div>
+      <label class="input_label">Card Details</label>
+      <br>
+      <div class="input_container">
+        
+        <div class="stripe" id="card-element" #cardElement></div>
+    </div>
+     
+      <div class="centered-div">
+        <br>
+        <button mat-raised-button color="accent" (click)="createAccount()">Checkout</button>
+      </div>
+    </div>
+    
+  </form>
+

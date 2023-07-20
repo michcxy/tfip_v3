@@ -1,0 +1,23 @@
+.image-container {
+    width: 100%;
+  }
+  
+  .image-container img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+
+  .centered-paragraph {
+    text-align: center;
+  }
+
+  .span-space {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .centered-div {
+    text-align: center;
+    color: white;
+  }

@@ -1,0 +1,56 @@
+.centered-paragraph {
+    text-align: center;
+  }
+
+  .centered-chip-listbox {
+    display: flex;
+    justify-content: center;
+  }
+
+  .paragraph-container {
+    display: flex;
+    width: 70%;
+  }
+  
+  .paragraph-container p {
+    flex: 1;
+   
+  }
+
+  .centered-div {
+    text-align: center;
+  }
+
+  .span-space {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .form-container {
+    display: flex;
+  }
+  
+  .left-column,
+  .right-column {
+    flex: 1;
+  }
+  
+  .left-column p,
+  .right-column p {
+    margin-bottom: 10px;
+  }
+  
+  
+  .left-column {
+    width: 50%;
+    float: left;
+  }
+  
+  .right-column {
+    width: 50%;
+    float: right;
+  }
+
+body {
+    color: white;
+  }

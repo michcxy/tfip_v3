@@ -1,0 +1,27 @@
+.centered-paragraph {
+    text-align: center;
+  }
+
+  .centered-chip-listbox {
+    display: flex;
+    justify-content: center;
+  }
+
+  .paragraph-container {
+    display: flex;
+    width: 70%;
+  }
+  
+  .paragraph-container p {
+    flex: 1;
+   
+  }
+
+  .centered-div {
+    text-align: center;
+  }
+
+  .span-space {
+    margin-right: 20px;
+    margin-left: 20px;
+  }

@@ -1,0 +1,38 @@
+<div class="left-div">
+    <h1>Order History: </h1>
+
+</div>
+<div class="left-div">
+    <div class="image-wrapper">
+      <span>June 2023</span>
+      <img src="https://media.karousell.com/media/photos/products/2022/11/28/the_1975__being_funny_in_a_for_1669627266_b2bb373a_progressive" class="small-image">
+      <span>Being Funny In a Foreign Language</span>
+      <span>$29.90</span>
+      <div class="rating">
+        <span class="star" [ngClass]="{'filled': rating >= 1}" (click)="selectRating(1)"></span>
+        <span class="star" [ngClass]="{'filled': rating >= 2}" (click)="selectRating(2)"></span>
+        <span class="star" [ngClass]="{'filled': rating >= 3}" (click)="selectRating(3)"></span>
+        <span class="star" [ngClass]="{'filled': rating >= 4}" (click)="selectRating(4)"></span>
+        <span class="star" [ngClass]="{'filled': rating >= 5}" (click)="selectRating(5)"></span>
+      </div>
+    </div>
+    <div class="image-wrapper">
+        <span>June 2023</span>
+        <img src="https://media.karousell.com/media/photos/products/2022/11/28/the_1975__being_funny_in_a_for_1669627266_b2bb373a_progressive" class="small-image">
+        <span>Being Funny In a Foreign Language</span>
+        <span>$29.90</span>
+        <div class="rating">
+          <span class="star" [ngClass]="{'filled': rating >= 1}" (click)="selectRating(1)"></span>
+          <span class="star" [ngClass]="{'filled': rating >= 2}" (click)="selectRating(2)"></span>
+          <span class="star" [ngClass]="{'filled': rating >= 3}" (click)="selectRating(3)"></span>
+          <span class="star" [ngClass]="{'filled': rating >= 4}" (click)="selectRating(4)"></span>
+          <span class="star" [ngClass]="{'filled': rating >= 5}" (click)="selectRating(5)"></span>
+        </div>
+      </div>
+  </div>
+
+  <div *ngFor="let item of items">
+    <h3>{{ item.name }}</h3>
+    <p>Genre: {{ item.genre }}</p>
+    <p>Rating: {{ item.rating }}</p>
+  </div>
