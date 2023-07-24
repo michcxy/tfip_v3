@@ -21,19 +21,21 @@ import { SummaryComponent } from './components/summary.component';
 import { EditComponent } from './components/edit.component';
 import { HistoryComponent } from './components/history.component';
 import { SubcheckoutComponent } from './components/subcheckout.component';
-
+import { CartComponent } from './components/cart.component';
+import { AuthGuard } from './auth.guard';
 
 const appRoute: Routes = [
   { path: '', component: MainComponent, title: 'Main' },
-  { path: 'home', component: MainComponent, title: 'About' },
+  { path: 'home', component: MainComponent, title: 'Home' },
   { path: 'about', component: AboutComponent, title: 'About' },
   { path: 'join', component: JoinComponent, title: 'Join' },
   { path: 'login', component: LoginComponent, title: 'Login' },
   { path: 'signup', component: SignupComponent, title: 'Signup' },
-  { path: 'summary', component: SummaryComponent, title: 'Summary' },
-  { path: 'edit', component: EditComponent, title: 'Edit' },
-  { path: 'history', component: HistoryComponent, title: 'History' },
-  { path: 'subcheckout', component: SubcheckoutComponent, title: 'SubCheckOut' },
+  { path: 'summary', component: SummaryComponent, title: 'Summary', canActivate:[AuthGuard] },
+  { path: 'edit', component: EditComponent, title: 'Edit', canActivate:[AuthGuard] },
+  { path: 'history', component: HistoryComponent, title: 'History', canActivate:[AuthGuard] },
+  { path: 'cart', component: CartComponent, title: 'Cart' },
+  { path: 'subcheckout', component: SubcheckoutComponent, title: 'SubCheckout'},
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ]
 
@@ -49,8 +51,9 @@ const appRoute: Routes = [
     SummaryComponent,
     EditComponent,
     HistoryComponent,
-    SubcheckoutComponent
-  ],
+    SubcheckoutComponent,
+    CartComponent
+    ],
   imports: [
     BrowserModule,
     MaterialModule,
@@ -76,7 +79,9 @@ const appRoute: Routes = [
         console.error(err);
       }
     } as SocialAuthServiceConfig,
-  }, AccountService],
+  }, 
+  AuthGuard,
+  AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,33 @@
+<h2>Cart Items</h2>
+<ul>
+  <li *ngFor="let item of cartItems">
+    <div class="cart-item">
+      <!-- Item Thumbnail -->
+      <div class="item-thumbnail">
+        <img [src]="item.imgUrl" alt="item thumbnail" class="thumbnail-image">
+      </div>
+      <!-- Item Details -->
+      <div class="item-details">
+        <h5 class="item-name">{{ item.name }}</h5>
+        <p class="item-artist">Artist: {{ item.artist }}</p>
+        <p class="item-price">{{ item.price | currency:'SGD':'symbol':'1.2-2' }}</p>
+      </div>
+      <!-- Remove Button -->
+      <button mat-icon-button color="warn" (click)="onRemoveFromCart(item)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>
+<!-- Total Price -->
+<p>Total Price: {{ getTotalPrice() | currency:'SGD':'symbol':'1.2-2' }}</p>
+
+<label class="input_label"><h2>Card Details</h2></label>
+<div class="input_container">
+  
+  <div class="stripe" id="card-element" #cardElement></div>
+</div>
+
+<div class="centered-div">
+    <button mat-raised-button color="accent" (click)="onCheckout(cartItems)">Proceed to checkout</button>
+</div>

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { User } from '../models';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 
@@ -29,6 +29,8 @@ export class SubcheckoutComponent {
   private elements!: StripeElements;
   private card!: StripeCardElement;
   @ViewChild('cardElement') cardElement!: ElementRef;
+
+  checkoutProcessing: boolean = false
 
   constructor(private route: ActivatedRoute) {
     this.stripePromise = loadStripe('pk_test_51NVFboEA5fTQ7JwcGPgphMkYEO5XnY40M3GiHhQPOnFvlbiHWYsd3kQmX8f2wscq4VxXsTgGSxakUkcZXqHFjw3300kiYywWLu');
@@ -71,6 +73,7 @@ export class SubcheckoutComponent {
       if (email) {
         console.info(email);
         this.accSvc.setEmail(email);
+        this.accSvc.user = user;
         this.accSvc.setLoggedInStatus(true);
       }
 
@@ -110,6 +113,7 @@ export class SubcheckoutComponent {
 
   processPayment(user: User) {
     console.info("processing payment");
+    this.checkoutProcessing = true
     
     // Make an HTTP POST request to the server-side endpoint to create a PaymentIntent
     fetch('/api/create-payment-intent', {
@@ -148,17 +152,20 @@ export class SubcheckoutComponent {
               console.error(error);
             } else {
               // Payment succeeded
+              this.accSvc.setEmail(user.email);
+              console.info("payment successful, the user email is", user.email)
               console.log(paymentIntent);
               
-              // Continue with the rest of your account creation logic here...
+              //Continue with the rest of your account creation logic here...
               firstValueFrom(this.accSvc.createAccount(user))
                 .then(result => {
                   // Handle account creation success
-                  this.accSvc.addOrder(user, this.total, this.plan)
+                  this.accSvc.addOrder(user, this.total)
                     .subscribe(
                       result => {
                         console.info('Order added');
                         this.signupForm.reset();
+                        this.checkoutProcessing = false;
                         // For example, navigate to the summary page after successful payment
                         this.router.navigate(['/summary']);
                       },
@@ -170,7 +177,8 @@ export class SubcheckoutComponent {
                 .catch(err => {
                   alert(JSON.stringify(err))
                 });
-            }
+
+               }
           });
         })
         .catch((error) => {

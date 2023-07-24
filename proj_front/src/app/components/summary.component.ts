@@ -24,22 +24,25 @@ export class SummaryComponent implements OnInit{
   user! : User
 
   ngOnInit(): void {
-    this.route.params.subscribe(() => {
-      const email = this.accSvc.getEmail();
-      if (!!email) {
-
-        this.accSvc.getUser(email)
-          .subscribe(
-            result => {
-              this.user = result;
-              this.cdr.detectChanges(); // Manually trigger change detection
-            },
-            err => {
-              console.error(err);
-            }
-          );
-      }
-    });
+    if(!!this.accSvc.user) {
+      this.user = this.accSvc.user;
+    }
+    // this.route.params.subscribe(() => {
+    //   const email = this.accSvc.getEmail();
+    //   console.info("entering summary page, email is ", email)
+    //   if (!!email) {
+    //     this.accSvc.getUser(email)
+    //       .subscribe(
+    //         result => {
+    //           this.user = result;
+    //           this.cdr.detectChanges(); // Manually trigger change detection
+    //         },
+    //         err => {
+    //           console.error(err);
+    //         }
+    //       );
+    //   }
+    // });
   }
 
   editDetails(){

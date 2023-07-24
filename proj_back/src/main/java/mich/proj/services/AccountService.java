@@ -1,19 +1,13 @@
 package mich.proj.services;
 
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import jakarta.mail.MessagingException;
 import mich.proj.models.Item;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 import mich.proj.models.User;
 import mich.proj.repositories.AccountRepository;
 
@@ -23,26 +17,23 @@ public class AccountService {
     @Autowired
     AccountRepository accRepo;
 
-<<<<<<< HEAD
     @Autowired
     EmailService emailSvc;
 
     public String createAccount(User user) {
-        System.out.println(">>>>>> calling repo");
+        System.out.println(">>>>>> calling repo, user email is " + user.getEmail());
         accRepo.createAccount(user);
+        // return null;
         try {
-            emailSvc.sendSignupConfirmationEmail(user.getEmail());
+            emailSvc.sendSignupConfirmationEmail(user.getEmail(), user.getFname());
+            System.out.println(">>>>SENDING EMAIL>>>");
             return "Signup successful! Please check your email for confirmation.";
         } catch (MessagingException e) {
             e.printStackTrace();
-            return "Signup successful, but failed to send confirmation email. Please contact support.";
+            System.out.println(">>> MESSAGING EXCEPTION");
+            return e.getMessage();
+            //return "Signup successful, but failed to send confirmation email. Please contact support.";
         }
-=======
-    public String createAccount(User user) {
-        System.out.println(">>>>>> calling repo");
-        accRepo.createAccount(user);
-        return null;
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
     }
 
        public Optional<User> retrieveAccount(String email) {
@@ -62,17 +53,22 @@ public class AccountService {
         return accRepo.editAccount(user);
     }
     
-<<<<<<< HEAD
     public String addOrder(User user, double total) {
-        accRepo.addOrder(user, total);
-        return null;
+        
+        return accRepo.addOrder(user, total);
     }
 
     public List<Item> getAllItems(String email) {
         return accRepo.getAllItems(email);
     }
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+
+     public List<Item> getAlbumsByArtist(String artistName) {
+        return accRepo.getAlbumsbyArtist(artistName);
+    }
+
+    public void updateRating(String email, String itemName, int rating) {
+        accRepo.updateRating(email, itemName, rating);
+    }
 
 
 }

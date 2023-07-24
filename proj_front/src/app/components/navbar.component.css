@@ -17,3 +17,40 @@
   .mat-dialog-container {
     border-radius: 20px; /* Set the desired border radius value */
   }
+
+  .cart-column {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px; /* Adjust the width as needed */
+    height: 100%;
+    background-color: #3a3a3a; /* Adjust the background color as needed */
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow for a better visual effect */
+  }
+  
+  .cart-content {
+    padding: 20px;
+  }
+
+  /* Styles for the close button */
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .thumbnail-image {
+    width: 100px; /* Adjust the width to your desired size */
+    height: 100px; /* Adjust the height to your desired size */
+    object-fit: cover; /* This ensures the image retains its aspect ratio within the specified dimensions */
+  }
+
+  .item-details {
+    font-size: 1rem; /* Adjust the font size to your desired size */
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+  }

@@ -7,8 +7,16 @@
       color: white;
     }
   </style>
-  <br>
-<form [formGroup]="signupForm">
+
+<ng-container>
+  <div class="loading-wrapper" [class.hidden]="!checkoutProcessing">
+    <div class="loader">
+      <li class="ball"></li>
+      <li class="ball"></li>
+      <li class="ball"></li>
+    </div>
+  </div>
+<form [formGroup]="signupForm" [class.hidden]="checkoutProcessing">
     <div class="centered-div">
       <div class="form-container">
         <div class="form-column">
@@ -98,8 +106,7 @@
           </mat-form-field>
         </div>
       </div>
-      <label class="input_label">Card Details</label>
-      <br>
+      <label class="input_label"><h2>Card Details</h2></label>
       <div class="input_container">
         
         <div class="stripe" id="card-element" #cardElement></div>
@@ -110,6 +117,9 @@
         <button mat-raised-button color="accent" (click)="createAccount()">Checkout</button>
       </div>
     </div>
+    <br>
+    <br>
     
   </form>
 
+</ng-container>

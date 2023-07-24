@@ -1,18 +1,12 @@
 package mich.proj.controllers;
 
 import java.util.HashMap;
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-<<<<<<< HEAD
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -39,32 +32,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mich.proj.models.Item;
 import mich.proj.models.OrderRequest;
-=======
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+import mich.proj.models.UpdateRatingRequest;
 import mich.proj.models.User;
 import mich.proj.services.AccountService;
 
 @Controller
-<<<<<<< HEAD
 @RequestMapping(path="/api")
-// @CrossOrigin(origins="*")
-=======
-@RequestMapping
-@CrossOrigin(origins="*")
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+//@CrossOrigin(origins="*")
 public class AccountController {
 
     @Autowired
     AccountService accSvc;
-<<<<<<< HEAD
 
 	@Value("${stripe.secretKey}")
     private String stripeSecretKey;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
     
     @PostMapping(path="/createUser", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -85,15 +66,19 @@ public class AccountController {
         user.setGenre(newUser.getGenre());
 		user.setPlan(newUser.getPlan());
 
+
 		try{
-			accSvc.createAccount(user);
+			String s = accSvc.createAccount(user);
+			System.out.println("string>>>>> " + s);
 			return ResponseEntity
             .status(HttpStatus.ACCEPTED)
             .body(null);
 
 		}catch(Exception e) {
             // Return 500 Internal Server Error with error message
-            String errorMessage = "An error occurred.";
+            String errorMessage = e.getMessage();
+			System.out.println(errorMessage);
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(errorMessage);
 		}
@@ -126,28 +111,6 @@ public class AccountController {
 		return ResponseEntity.ok(isUnique);
 	}
 
-<<<<<<< HEAD
-=======
-	// @PostMapping("/login")
-	// @ResponseBody
-	// public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-	// 	String authenticationResult = accSvc.validateLogin(email, password);
-
-	// 	if (authenticationResult.equals("SUCCESS")) {
-	// 		// Return success response if login is valid
-	// 		return ResponseEntity.ok("Login successful");
-	// 	} else if (authenticationResult.equals("INVALID_PASSWORD")) {
-	// 		// Return error response for invalid password
-	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
-	// 	} else if (authenticationResult.equals("EMAIL_NOT_FOUND")) {
-	// 		// Return error response for email not found
-	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email not found");
-	// 	} else {
-	// 		// Return error response for other authentication failures
-	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
-	// 	}
-	// }
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 
 	@PostMapping("/login")
 		@ResponseBody
@@ -188,15 +151,14 @@ public class AccountController {
 			
 		}
 
-<<<<<<< HEAD
 		@PostMapping(path="/addOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
 		@ResponseBody
 		public ResponseEntity<User> addOrder(@RequestBody OrderRequest orderRequest) {
         // Extract the necessary data from the order request
         User user = orderRequest.getUser();
         double total = orderRequest.getTotal();
-		//String plan = orderRequest.getPlan();
-        accSvc.addOrder(user, total);
+        String userId = accSvc.addOrder(user, total);
+		System.out.println(userId);
         
         return ResponseEntity
 						.status(HttpStatus.ACCEPTED)
@@ -207,8 +169,6 @@ public class AccountController {
 	@ResponseBody
 	public ResponseEntity<List<Item>> getHistory(@RequestParam String email){
 		 List<Item> items = accSvc.getAllItems(email);
-		 System.out.println("items>>>" + items);
-		// Return the items in the response body
 		return ResponseEntity.ok(items);
 	}
 
@@ -233,8 +193,36 @@ public class AccountController {
 				// Handle Stripe API exceptions
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating PaymentIntent");
 			}
-}
+	}
 
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+	@PostMapping(path="/updateRating", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+		public ResponseEntity<String> updateRating(@RequestBody UpdateRatingRequest request) {
+		System.out.println(request);
+		System.out.println(">>>>>>>>>>>> updating rating");
+        // Extract the necessary data from the update rating request
+		String email = request.getEmail();
+       	String itemName = request.getItemName();
+        int rating = request.getRating();
+
+		System.out.println(" EMAIL >>>>" + email);
+		System.out.println(" item >>>>" + itemName);
+		System.out.println(" rating >>>>" + rating);
+        accSvc.updateRating(email, itemName, rating);
+        
+        return ResponseEntity
+						.status(HttpStatus.ACCEPTED)
+						.body(null);
+    }
+
+	@GetMapping(path="/getAlbums")
+	@ResponseBody
+	public ResponseEntity<List<Item>> getAlbumsByArtist(@RequestParam String artistName) {
+        System.out.println("TRYING TO GET ALBUMS >>>>" + artistName);
+        List<Item> items = accSvc.getAlbumsByArtist(artistName);
+        System.out.println(items);
+        return ResponseEntity.ok(items);
+    }
+
+
 }

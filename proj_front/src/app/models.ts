@@ -1,3 +1,5 @@
+import { ExpressionType } from "@angular/compiler"
+
 export interface User {
     fname: string
     lname: string
@@ -16,4 +18,13 @@ export interface User {
   export interface AuthenticateUser {
     email: string
     password: string
+  }
+
+  export interface Album {
+    name: string;
+    genre: string;
+    artist: string;
+    description: string;
+    imgUrl: string;
+    price: number;
   }

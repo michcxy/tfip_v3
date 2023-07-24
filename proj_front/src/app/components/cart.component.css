@@ -1,0 +1,14 @@
+.thumbnail-image {
+    width: 100px; /* Adjust the width to your desired size */
+    height: 100px; /* Adjust the height to your desired size */
+    object-fit: cover; /* This ensures the image retains its aspect ratio within the specified dimensions */
+  }
+
+  .item-details {
+    font-size: 1rem; /* Adjust the font size to your desired size */
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+  }

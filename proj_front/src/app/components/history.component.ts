@@ -40,9 +40,19 @@ export class HistoryComponent {
         }
       );
   }
-  selectRating(rating: number) {
-    this.rating = rating;
-    console.info(this.rating);
+  
+  selectRating(item: any, rating: number) {
+    const email = this.accSvc.getEmail() ?? '';
+    item.rating = rating; 
+    this.accSvc.updateRating(email, item.name, rating)
+    .subscribe(
+      () => {
+        console.log('Rating updated successfully');
+      },
+      (error) => {
+        console.error('Error updating rating:', error);
+      }
+    );
   }
 
 

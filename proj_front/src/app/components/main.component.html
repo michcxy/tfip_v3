@@ -21,26 +21,18 @@
     </div>
 
     <div class="right-div">
+
         <img src="https://muzikspeaks.files.wordpress.com/2015/06/the-1975-banner.jpeg" class="banner">
+     
         <h2>Like what you hear?</h2>
+
         <div class="image-container">
-          <div class="image-wrapper">
-            <img src="https://media.karousell.com/media/photos/products/2022/11/28/the_1975__being_funny_in_a_for_1669627266_b2bb373a_progressive" class="small-image">
-            <span>Being Funny In a Foreign Language</span>
-            <span>$29.90</span>
-            <button mat-raised-button color="accent" class="image-button">Add On</button>
-          </div>
-          <div class="image-wrapper">
-            <img src="https://m.media-amazon.com/images/I/716v5k08HFL._UF1000,1000_QL80_.jpg" alt="product" class="small-image">
-            <span>A Brief Enquiry Into Online Relationships</span>
-            <span>$29.90</span>
-            <button mat-raised-button color="accent" class="image-button">Add On</button>
-          </div>
-          <div class="image-wrapper">
-            <img src="https://www.jbhifi.com.au/cdn/shop/products/512819-Product-0-I-637806980773831424_1024x1024.jpg" alt="product" class="small-image">
-            <span>The 1975</span>
-            <span>$29.90</span>
-            <button mat-raised-button color="accent" class="image-button">Add On</button>
+          <div class="image-wrapper" *ngFor="let album of albums">
+            <img [src]="album.imgUrl" class="small-image" alt="album">
+            <h3 class="album-name">{{ album.name }}</h3>
+            <span>By: {{ album.artist }}</span>
+            <span>{{ album.price }}</span>
+            <button mat-raised-button color="accent" class="image-button" (click)="onAddToCart(album)">Add On</button>
           </div>
         </div>
         <br>

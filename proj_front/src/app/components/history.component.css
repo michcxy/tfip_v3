@@ -4,11 +4,10 @@
   }
   
   .image-wrapper {
+    flex-basis: calc(33.33% - 20px); /* 3 items per row, adjust accordingly */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 40px; 
-    text-align: center;
   }
 
   .small-image {
@@ -38,4 +37,9 @@
   
   .star.filled {
     background-image: url('https://pixlok.com/wp-content/uploads/2021/07/Rating-SVG-Icon-s9fd-300x300.png');
+  }
+  .items-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }

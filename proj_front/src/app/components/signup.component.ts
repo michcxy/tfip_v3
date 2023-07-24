@@ -66,12 +66,13 @@ export class SignupComponent {
   }
 
   checkOut(){
+    console.info("checking out")
     if (this.signupForm.valid) {
     const queryParams = {
       plan: this.signupForm.value.plan,
       genre: this.signupForm.value.genre
     };
-
+    console.log(queryParams)
     this.router.navigate(['/subcheckout'], { queryParams });
     }
   }

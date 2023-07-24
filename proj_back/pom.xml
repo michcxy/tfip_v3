@@ -49,7 +49,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
 		<!--email-->
 		<dependency>
 		<groupId>org.springframework.boot</groupId>
@@ -68,8 +67,11 @@
 			<version>20.74.0</version>
 		</dependency>
 
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
 
 			<dependency>
 			<groupId>mysql</groupId>

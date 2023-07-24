@@ -1,5 +1,4 @@
 package mich.proj.repositories;
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,21 +10,15 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-=======
-
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-<<<<<<< HEAD
+import com.mongodb.client.result.UpdateResult;
+
 import mich.proj.models.Item;
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
 import mich.proj.models.User;
 
 @Repository
@@ -34,7 +27,6 @@ public class AccountRepository {
     @Autowired
     JdbcTemplate template;
 
-<<<<<<< HEAD
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -49,22 +41,13 @@ public class AccountRepository {
     String validateLogin = "SELECT password FROM users WHERE email = ?";
 
     String editAccount = "UPDATE users SET address1 = ?, address2 = ?, postal = ?, phone = ?, genre = ?,plan = ? WHERE email = ?";
-=======
-    String accountCreation = "INSERT INTO customers(fname, lname, email, password, address1, address2, postal, phone, genre, plan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    String accountRetrieval = "SELECT fname, lname, email, password, address1, address2, postal, phone, genre, plan from customers where email = ?";
-
-    String checkEmail = "SELECT COUNT(*) FROM customers WHERE email = ?";
-
-    String validateLogin = "SELECT password FROM customers WHERE email = ?";
-
-    String editAccount = "UPDATE customers SET address1 = ?, address2 = ?, postal = ?, phone = ?, genre = ?,plan = ? WHERE email = ?";
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+    String getAlbumsByArtist = "SELECT * FROM products WHERE artist = ?";
 
     public String createAccount(User user){
         template.update(accountCreation, user.getFname(), user.getLname(), user.getEmail(), user.getPassword(), user.getAddress1(), user.getAddress2(), user.getPostal(), user.getPhone(), user.getGenre(), user.getPlan());
         System.out.println(">>>>>> inserting acc");
-        return null;
+        return ">>>>>> Account created";
     }
 
     public Optional<User> retrieveAccount(String email){
@@ -93,7 +76,6 @@ public class AccountRepository {
     public String validateLogin(String email, String password) {        
        try {
         String storedPassword = template.queryForObject(validateLogin, String.class, email);
-        System.out.println(">>>>>" + storedPassword);
         if (storedPassword == null) {
             return "EMAIL_NOT_FOUND";
         }
@@ -113,11 +95,11 @@ public class AccountRepository {
        return retrieveAccount(user.getEmail());
     }
 
-<<<<<<< HEAD
     public String addOrder(User user, double total){
         String orderId = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         Date currentDate = new Date();
         template.update(addOrder, orderId, user.getEmail(), currentDate, total);
+        System.out.println("order adding>>>>>");
         // Document document = new Document();
         // document.append("user_email", user.getEmail());
         // List<String> items = new ArrayList<>();
@@ -132,10 +114,28 @@ public class AccountRepository {
         query.fields().exclude("_id");
         Document document = mongoTemplate.findOne(query, Document.class, "orders");
         List<Item> items = document.get("items", List.class);
-        System.out.println(items);
+        // System.out.println(items);
         return items;
     }
 
-=======
->>>>>>> 7fb4e526231fc4d6c822a05014a5ab46d9a8f3f6
+    public String updateRating(String email, String itemName, int rating) {
+            Query query = new Query(Criteria.where("email").is(email)
+                    .and("items.name").is(itemName));
+
+            Update update = new Update().set("items.$.rating", rating);
+
+            UpdateResult result = mongoTemplate.updateFirst(query, update, "orders");
+
+            if (result.getModifiedCount() > 0) {
+                return "Rating updated successfully.";
+            } else {
+                return "No order found for the given email and item name.";
+            }
+        }
+
+    public List<Item> getAlbumsbyArtist(String artistName) {
+        List<Item> albums = template.query(getAlbumsByArtist, new Object[]{artistName}, BeanPropertyRowMapper.newInstance(Item.class));
+        System.out.println("RETURNED ALBUMS>>> " + albums);
+        return albums;  
+    }
 }

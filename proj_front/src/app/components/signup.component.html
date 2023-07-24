@@ -49,59 +49,8 @@
     <p class="centered-paragraph">
         *You can update your genre preference later on if you change your mind.
     </p>
-    <!-- <div class="input-group">
-         <div class="left-column">
-            <mat-form-field>
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="fname">
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-              <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lname">
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput formControlName="email">
-              <mat-error *ngIf="signupForm.get('email')?.hasError('notUnique')">Email already exists.</mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input matInput formControlName="password">
-            </mat-form-field>
-          </div>
-          <div class="right-column">
-            <p>
-              <mat-form-field>
-                <mat-label>Address Line 1</mat-label>
-                <input matInput formControlName="address1">
-              </mat-form-field>
-              <br>
-              <mat-form-field>
-                <mat-label>Address Line 2</mat-label>
-                <input matInput formControlName="address2">
-              </mat-form-field>
-              <br>
-              <mat-form-field>
-                <mat-label>Postal Code</mat-label>
-                <input matInput formControlName="postal">
-              </mat-form-field>
-              <br>
-              <mat-form-field>
-                <mat-label>Phone Number</mat-label>
-                <input matInput formControlName="phone">
-              </mat-form-field>
-            </p>
-          </div>
-         </div> -->
     </div>
-    <!-- 
-    <br>
-    <div class="centered-div">
-        <button mat-raised-button color="accent" (click)="createAccount()">Create</button>
-    </div> -->
+
     <div class="centered-div">
         <button mat-raised-button color="accent" [disabled]="!signupForm.valid" (click)="checkOut()">Next</button>
     </div>
