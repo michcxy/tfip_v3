@@ -50,7 +50,7 @@ export class LoginComponent {
         genre: '',
         plan: ''
       };
-
+      
       firstValueFrom(this.accSvc.login(user.email, user.password))
       .then(result => {
         if (result) {

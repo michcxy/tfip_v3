@@ -167,7 +167,7 @@ export class SubcheckoutComponent {
               firstValueFrom(this.accSvc.createAccount(user))
                 .then(result => {
                   // Handle account creation success
-                  this.accSvc.addOrder(user, this.total)
+                  this.accSvc.addOrder(user, this.total, user.plan)
                     .subscribe(
                       result => {
                         console.info('Order added');

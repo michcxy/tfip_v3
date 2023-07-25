@@ -112,6 +112,7 @@ export class NavbarComponent {
   }
 
   onCheckout() {
+    console.info("checking out from nav", this.accSvc.getEmail())
     this.closeCartColumn();    
     this.router.navigate(['/cart'], { queryParams: { items: JSON.stringify(this.cartItems) } });
   }

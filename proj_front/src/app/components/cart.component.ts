@@ -9,8 +9,6 @@ import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login.component';
 
-
-
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -35,8 +33,11 @@ export class CartComponent {
     this.stripePromise = loadStripe('pk_test_51NVFboEA5fTQ7JwcGPgphMkYEO5XnY40M3GiHhQPOnFvlbiHWYsd3kQmX8f2wscq4VxXsTgGSxakUkcZXqHFjw3300kiYywWLu');
   }
 
+
+
   ngOnInit() {
-    
+    console.info(this.accSvc.user);
+    console.info(this.accSvc.user?.email);
   }
 
   ngAfterViewInit() {
@@ -123,6 +124,12 @@ export class CartComponent {
             } else {
 
               console.log(paymentIntent);
+              const email = this.accSvc.user?.email;
+              console.info(this.accSvc.getEmail());
+              if(email){
+                this.saveAlbums(album, email);
+                console.info("saving order of albums >>", album)
+              }
               this.cartService.setCartItems([]);
               this.router.navigate(['/ordersuccess']);
                }
@@ -145,6 +152,20 @@ export class CartComponent {
       console.log('The Login dialog was closed');
       console.log(result);
     });
+  }
+
+  saveAlbums(cartItems: Album[], email: string): void {
+    console.info("saving albums", cartItems);
+    this.cartService.saveAlbums(cartItems, email).subscribe(
+      response => {
+        // Handle the response from the server if needed
+        console.log('Albums saved successfully!', response);
+      },
+      error => {
+        // Handle errors here if the request fails
+        console.error('Error saving albums:', error);
+      }
+    );
   }
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Album } from './models';
+import { Album, User } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +34,13 @@ export class CartService {
     console.log(index)
   }
 
-//   getAlbumsByArtist(artistName: string): Observable<Album[]> { 
-//     return this.http.get<Album[]>(`/getAlbums?artist=${artistName}`);
-//   }
-
     getAlbumsByArtist(artistName: string): Observable<any[]> {
         return this.http.get<any[]>('/api/getAlbums', { params: { artistName: artistName } });  
+      }
+
+      saveAlbums(cartItems: Album[], email: String): Observable<any> {
+        const data = { cartItems, email };
+        console.info("addcartorder data>>>", data);
+        return this.http.post<any>('/api/addCartOrder', data);
       }
 }

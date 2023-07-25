@@ -44,8 +44,8 @@ export class AccountService {
 
   }
 
-  addOrder(user: User, total: number) {
-    const data = { user, total };
+  addOrder(user: User, total: number, plan: string) {
+    const data = { user, total, plan };
     return this.http.post<any>('/api/addOrder', data);
   }
 
@@ -130,6 +130,7 @@ export class AccountService {
       })
     );
   }
+
 
   setEmail(email: string) {
     this.email = email;

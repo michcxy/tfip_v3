@@ -36,9 +36,9 @@ const appRoute: Routes = [
   { path: 'summary', component: SummaryComponent, title: 'Summary', canActivate:[AuthGuard] },
   { path: 'edit', component: EditComponent, title: 'Edit', canActivate:[AuthGuard] },
   { path: 'history', component: HistoryComponent, title: 'History', canActivate:[AuthGuard] },
-  { path: 'cart', component: CartComponent, title: 'Cart' },
-  { path: 'subcheckout', component: SubcheckoutComponent, title: 'SubCheckout'},
-  { path: 'ordersuccess', component: OrdersuccessComponent, title: 'OrderSuccess'},
+  { path: 'cart', component: CartComponent, title: 'Cart', canActivate:[AuthGuard] },
+  { path: 'subcheckout', component: SubcheckoutComponent, title: 'SubCheckout', canActivate:[AuthGuard] },
+  { path: 'ordersuccess', component: OrdersuccessComponent, title: 'OrderSuccess', canActivate:[AuthGuard] },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ]
 

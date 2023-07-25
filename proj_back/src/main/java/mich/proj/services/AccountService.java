@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import mich.proj.models.Item;
+import mich.proj.models.PastOrders;
 import mich.proj.models.User;
 import mich.proj.repositories.AccountRepository;
 
@@ -53,12 +54,16 @@ public class AccountService {
         return accRepo.editAccount(user);
     }
     
-    public String addOrder(User user, double total) {
+    public String addOrder(User user, double total, String plan) {
         
-        return accRepo.addOrder(user, total);
+        return accRepo.addOrder(user, total, plan);
     }
 
-    public List<Item> getAllItems(String email) {
+    // public List<Item> getAllItems(String email) {
+    //     return accRepo.getAllItems(email);
+    // }
+
+    public List<PastOrders> getAllItems(String email) {
         return accRepo.getAllItems(email);
     }
 
@@ -68,6 +73,10 @@ public class AccountService {
 
     public void updateRating(String email, String itemName, int rating) {
         accRepo.updateRating(email, itemName, rating);
+    }
+
+    public void addCartOrder(List<Item> cartItems, String email) {
+        accRepo.addCartOrder(cartItems, email);
     }
 
 

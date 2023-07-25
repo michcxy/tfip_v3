@@ -30,8 +30,10 @@ import jakarta.json.Json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import mich.proj.models.CartRequest;
 import mich.proj.models.Item;
 import mich.proj.models.OrderRequest;
+import mich.proj.models.PastOrders;
 import mich.proj.models.UpdateRatingRequest;
 import mich.proj.models.User;
 import mich.proj.services.AccountService;
@@ -157,7 +159,8 @@ public class AccountController {
         // Extract the necessary data from the order request
         User user = orderRequest.getUser();
         double total = orderRequest.getTotal();
-        String userId = accSvc.addOrder(user, total);
+		String plan = orderRequest.getPlan();
+        String userId = accSvc.addOrder(user, total, plan);
 		System.out.println(userId);
         
         return ResponseEntity
@@ -165,11 +168,29 @@ public class AccountController {
 						.body(user);
     }
 
+	@PostMapping(path="/addCartOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+    public void addCartOrder(@RequestBody CartRequest cartRequest) {
+		System.out.println("cartitems from request>>>" + cartRequest.getCartItems());
+        accSvc.addCartOrder(cartRequest.getCartItems(), cartRequest.getEmail());
+    }
+
+
+	// @GetMapping(path="/history")
+	// @ResponseBody
+	// public ResponseEntity<List<Item>> getHistory(@RequestParam String email){
+	// 	 List<Item> items = accSvc.getAllItems(email);
+	// 	return ResponseEntity.ok(items);
+	// }
+
 	@GetMapping(path="/history")
 	@ResponseBody
-	public ResponseEntity<List<Item>> getHistory(@RequestParam String email){
-		 List<Item> items = accSvc.getAllItems(email);
-		return ResponseEntity.ok(items);
+	public ResponseEntity<List<PastOrders>> getHistory(@RequestParam String email){
+		System.out.println("ENTERING HISTORY CONTROLLER");
+		List<PastOrders> pastOrders = accSvc.getAllItems(email);
+		//  List<Item> items = accSvc.getAllItems(email);
+		System.out.println(pastOrders);
+		return ResponseEntity.ok(pastOrders);
 	}
 
 	@PostMapping("/create-payment-intent")

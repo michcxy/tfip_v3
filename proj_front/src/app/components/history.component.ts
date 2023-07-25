@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 
@@ -16,13 +16,16 @@ export class HistoryComponent {
 
   rating!: number;
   items!: any[];
+  itemName!: string;
+
+  @ViewChild('itemNameRef') itemNameRef!: ElementRef;
 
   ngOnInit(): void {
-    const email = this.accSvc.getEmail();
-    console.info(email);
+    const email = this.accSvc.user?.email;
+    console.info("history ngoninit email", email);
     if(email){
       this.fetchItems(email);
-      console.info(this.items);
+      console.info("ngoninit fetch items", this.items);
     }
   }
 
@@ -43,8 +46,10 @@ export class HistoryComponent {
   
   selectRating(item: any, rating: number) {
     const email = this.accSvc.getEmail() ?? '';
+    this.itemName = this.itemNameRef.nativeElement.textContent;
+    console.log("item name:", this.itemName);
     item.rating = rating; 
-    this.accSvc.updateRating(email, item.name, rating)
+    this.accSvc.updateRating(email, this.itemName, rating)
     .subscribe(
       () => {
         console.log('Rating updated successfully');

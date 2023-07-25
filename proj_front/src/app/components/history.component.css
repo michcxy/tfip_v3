@@ -1,18 +1,17 @@
 .left-div {
     display: flex;
-    margin-left: 30px;
+    margin-left: 100px;
   }
   
   .image-wrapper {
-    flex-basis: calc(33.33% - 20px); /* 3 items per row, adjust accordingly */
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 20px; /* Adjust the gap between the image and details as needed */
+    align-items: center; /* Center the items vertically */
   }
-
+  
   .small-image {
     flex: 0 0 auto;
-    width: 230px; 
+    width: 200px; 
     border-radius: 10px;
     margin-bottom: 10px;
   }
@@ -43,3 +42,57 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
+  /* CSS for the purchases-wrapper to create the side-by-side layout */
+.purchases-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap as needed */
+}
+
+/* CSS for the individual purchase items */
+.image-wrapper {
+  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 50px; /* Adjust the gap between the image and purchase details as needed */
+}
+
+/* CSS for the purchase details */
+.purchase-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-card {
+  height: 200px;
+  width: 500px;
+}
+
+.rating-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; /* Center the content horizontally */
+  flex-grow: 1; /* Allow the rating-wrapper to grow and take up available space */
+  margin-bottom: 30px;
+}
+
+.card-content-wrapper {
+  flex-grow: 1; /* Allow the wrapper to grow and take up available space */
+}
+
+.order-label {
+  display: flex;
+  align-items: center;
+  color:rgb(192, 192, 192);
+  margin-left: 100px;
+}
+
+.spacer {
+  margin:20px;
+}
+
+.hr{
+  color:white;
+}

@@ -3,7 +3,6 @@ package mich.proj.models;
 public class Item {
 
     private String name;
-
     private String genre;
     private String artist;
     private String description;
