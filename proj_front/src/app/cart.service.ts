@@ -43,4 +43,8 @@ export class CartService {
         console.info("addcartorder data>>>", data);
         return this.http.post<any>('/api/addCartOrder', data);
       }
+
+      isItemInCart(album: Album): boolean {
+        return this.cartItems.some(item => item.name === album.name);
+      }
 }

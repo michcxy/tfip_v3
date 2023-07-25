@@ -112,10 +112,9 @@ mat-form-field {
     display: block;
   }
 
-  /* Styles for the input container */
+
   .input_container {
     display: inline-block;
-    /* background-color: #5d5d5d; */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -187,24 +186,24 @@ mat-form-field {
     display: none;
   }
 
-  /* CSS to hide the form when checkoutProcessing is true */
+  /* hide the form when checkoutProcessing is true */
 form.hidden {
   opacity: 0;
-  pointer-events: none; /* Disable form interactions while hidden */
+  pointer-events: none; 
 }
 
-/* CSS for the loading animation wrapper */
+/* loading animation wrapper */
 .loading-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: black; /* Optional: Add a semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* Optional: Ensure the loader is above the form */
+  z-index: 999; 
 }
 
 .find-button {
@@ -216,8 +215,8 @@ form.hidden {
 .map-container {
   width: 100%;
   margin: 0 auto;
-  border-radius: 5px; /* Adjust this value to control the rounding amount */
-  overflow: hidden; /* Clip the map within the rounded container */
+  border-radius: 5px; 
+  overflow: hidden; 
 }
 
 

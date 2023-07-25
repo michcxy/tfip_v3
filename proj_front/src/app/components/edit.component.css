@@ -1,5 +1,6 @@
 .centered-paragraph {
     text-align: center;
+    color:white;
   }
 
   .centered-chip-listbox {
@@ -25,3 +26,13 @@
     margin-right: 20px;
     margin-left: 20px;
   }
+
+  .update-heading {
+    margin-top:100px;
+    margin-left: 140px; 
+    color:white;
+    font-size: 36px; 
+
+  }
+
+  

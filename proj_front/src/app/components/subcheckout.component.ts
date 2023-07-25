@@ -18,7 +18,7 @@ import * as L from 'leaflet';
 
 export class SubcheckoutComponent {
 
-  @ViewChild('mapContainer') mapContainer!: ElementRef; // Add '!' for definite assignment
+  @ViewChild('mapContainer') mapContainer!: ElementRef; 
   signupForm!: FormGroup
   fb = inject(FormBuilder)
   router = inject(Router)
@@ -27,7 +27,7 @@ export class SubcheckoutComponent {
   plan!: string;
   genre!: string;
   total!: number;
-  streetName: string = ''; // Variable to store the street name
+  streetName: string = ''; 
   isAddress1Editable: boolean = false;
 
   private stripePromise!: Promise<Stripe | null>;
@@ -64,19 +64,17 @@ export class SubcheckoutComponent {
   }
 
   ngAfterViewInit() {
-    // Load Stripe.js asynchronously and initialize the elements
     this.loadStripe();
   }
 
  
 
   createAccount() {
-    if (this.signupForm) { // Check if signupForm is not null
+    if (this.signupForm) { 
       const user: User = this.signupForm.value;
       console.info(user);
       const email = this.signupForm.get('email')?.value;
 
-      // Check if email is not null or undefined before passing it to the service
       if (email) {
         console.info(email);
         this.accSvc.setEmail(email);
@@ -98,15 +96,15 @@ export class SubcheckoutComponent {
       address1: this.fb.control<string>('', [Validators.required]),
       address2: this.fb.control<string>('', [Validators.required]),
       postal: this.fb.control<number>(0, [Validators.required]),
-      phone: this.fb.control<number>(0, [Validators.required]),
+      phone: this.fb.control<number>(0, [Validators.required, Validators.pattern(/^\d{8}$/),]),
       genre: this.genre,
       plan: this.plan,
 
 
     })
-
   }
 
+  
   checkEmail(email: string) {
     const emailControl = this.signupForm.get('email');
     if (emailControl?.valid) {
@@ -122,14 +120,12 @@ export class SubcheckoutComponent {
     console.info("processing payment");
     this.checkoutProcessing = true
     
-    // Make an HTTP POST request to the server-side endpoint to create a PaymentIntent
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      // Optionally, you can pass any data to the server, such as user details
-      // body: JSON.stringify(user),
+ 
     })
     .then((response) => {
       if (!response.ok) {
@@ -138,10 +134,8 @@ export class SubcheckoutComponent {
       return response.json();
     })
     .then((data) => {
-      // Once you have the client secret from the server
       const clientSecret = data.pi;
   
-      // Continue with the rest of the payment processing logic using Stripe.js
       this.stripePromise
         .then((stripe) => {
           if (!stripe) {
@@ -150,12 +144,11 @@ export class SubcheckoutComponent {
           }
           stripe.confirmCardPayment(clientSecret, {
             payment_method: {
-              card: this.card, // Assuming this.card contains the card details
+              card: this.card, 
             },
           })
           .then(({ paymentIntent, error }) => {
             if (error) {
-              // Handle payment error
               console.error(error);
             } else {
               // Payment succeeded
@@ -163,17 +156,14 @@ export class SubcheckoutComponent {
               console.info("payment successful, the user email is", user.email)
               console.log(paymentIntent);
               
-              //Continue with the rest of your account creation logic here...
               firstValueFrom(this.accSvc.createAccount(user))
                 .then(result => {
-                  // Handle account creation success
                   this.accSvc.addOrder(user, this.total, user.plan)
                     .subscribe(
                       result => {
                         console.info('Order added');
                         this.signupForm.reset();
                         this.checkoutProcessing = false;
-                        // For example, navigate to the summary page after successful payment
                         this.router.navigate(['/summary']);
                       },
                       err => {
@@ -198,18 +188,14 @@ export class SubcheckoutComponent {
   }
 
   async loadStripe(): Promise<void> {
-    // Replace 'YOUR_STRIPE_PUBLISHABLE_KEY' with your actual Stripe publishable key
     this.stripePromise = loadStripe('pk_test_51NVFboEA5fTQ7JwcGPgphMkYEO5XnY40M3GiHhQPOnFvlbiHWYsd3kQmX8f2wscq4VxXsTgGSxakUkcZXqHFjw3300kiYywWLu');
 
-    // Wait for Stripe to load and resolve the promise
     const stripe = await this.stripePromise;
     if (stripe) {
       this.elements = stripe.elements();
 
-      // Initialize the CardElement
       this.card = this.elements.create('card', { hidePostalCode: true });
 
-      // Mount the CardElement to the #cardElement in the template
       this.card.mount(this.cardElement.nativeElement);
     } else {
       console.error('Error loading Stripe.');
@@ -249,9 +235,8 @@ export class SubcheckoutComponent {
 
                 this.streetName = blockNumber ? `${blockNumber}, ${streetName}` : streetName;
 
-                // Set the address1 FormControl value with the street name
                 this.signupForm.get('address1')?.setValue(this.streetName);
-                this.isAddress1Editable = true; // Enable the input after setting the value
+                this.isAddress1Editable = true; 
               }
             })
             .catch((error) => console.error('Error fetching location:', error));

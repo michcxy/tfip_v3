@@ -1,10 +1,13 @@
 .image-container {
     width: 100%;
+
   }
   
   .image-container img {
     width: 100%;
     object-fit: contain;
+    margin-top: -13px;
+    padding: 0;
   }
 
 
@@ -21,3 +24,14 @@
     text-align: center;
     color: white;
   }
+
+.image-with-button {
+    position: relative;
+}
+
+.image-with-button button {
+    position: absolute;
+    bottom: 50px; 
+    left: 50%;
+    transform: translateX(-50%);
+}

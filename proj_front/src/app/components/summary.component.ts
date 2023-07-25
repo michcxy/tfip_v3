@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { User } from '../models';
 import { AccountService } from '../account.service';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, Subject, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -13,7 +13,6 @@ import { Observable, firstValueFrom } from 'rxjs';
 export class SummaryComponent implements OnInit{
 
   router = inject(Router)
-  // accSvc = inject(AccountService)
 
   constructor(
     private route: ActivatedRoute,
@@ -27,26 +26,20 @@ export class SummaryComponent implements OnInit{
     if(!!this.accSvc.user) {
       this.user = this.accSvc.user;
     }
-    // this.route.params.subscribe(() => {
-    //   const email = this.accSvc.getEmail();
-    //   console.info("entering summary page, email is ", email)
-    //   if (!!email) {
-    //     this.accSvc.getUser(email)
-    //       .subscribe(
-    //         result => {
-    //           this.user = result;
-    //           this.cdr.detectChanges(); // Manually trigger change detection
-    //         },
-    //         err => {
-    //           console.error(err);
-    //         }
-    //       );
-    //   }
-    // });
   }
 
   editDetails(){
     this.router.navigate(['/edit']);
+  }
+
+  deleteAccount(){
+    const user = this.accSvc.user;
+    if (user !== null) {
+      this.accSvc.deleteAccount(user);
+      this.accSvc.triggerNavbarReload(); // Trigger the navbar reload
+      // this.router.navigate(['/home']);
+    }
+    
   }
   
 

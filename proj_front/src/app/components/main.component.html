@@ -27,19 +27,18 @@
               <div class="card">
                 <img [src]="album.imgUrl" class="small-image" alt="album">
                 <div class="card__content">
-                <p class="card__title">Track List</p>
-                <p class="card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                <p class="card__description">{{album.description}}</p>
               </div>
               <div><br></div>
               </div>
               <h3 class="album-name">{{ album.name }}</h3>
               <span>By: {{ album.artist }}</span>
               <span>${{ album.price }}</span>
-              <button mat-raised-button color="accent" class="image-button" (click)="onAddToCart(album)">Add To Cart</button>
+              <button mat-raised-button color="accent" class="image-button" [disabled]="cartService.isItemInCart(album)" (click)="onAddToCart(album)">Add To Cart</button>
             </div>
           </div>
           <br>
-          <!-- <h5>*Add ons will be sent out together with your next delivery.</h5> -->
+          <h3>*Each member may only purchase a maximum of one quantity of each album.</h3>
         </div>      
     </div>
   

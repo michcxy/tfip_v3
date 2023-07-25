@@ -18,9 +18,7 @@ export interface DialogData {
 export class LoginComponent {
 
   loginForm!: FormGroup
-  //fb = inject(FormBuilder)
-  //router = inject(Router)
-  //accSvc = inject(AccountService)
+
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
@@ -66,12 +64,10 @@ export class LoginComponent {
         }
       })
       .catch(error => {
-        // Handle HTTP error
         if (error.status === 401) {
           // Unauthorized - Invalid email or password
           alert('Invalid email or password');
         } else {
-          // Other error
           console.error(error);
           alert('An error occurred during login');
         }

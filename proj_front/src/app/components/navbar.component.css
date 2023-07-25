@@ -12,28 +12,29 @@
 
   .custom-font-size {
     font-size: 16px; 
+    cursor: pointer;
   }
 
   .mat-dialog-container {
-    border-radius: 20px; /* Set the desired border radius value */
+    border-radius: 20px; 
   }
 
   .cart-column {
     position: fixed;
     top: 0;
     right: 0;
-    width: 350px; /* Adjust the width as needed */
+    width: 440px; 
     height: 100%;
-    background-color: #3a3a3a; /* Adjust the background color as needed */
+    background-color: #3a3a3a; 
     z-index: 1000;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow for a better visual effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
   }
   
   .cart-content {
     padding: 20px;
   }
 
-  /* Styles for the close button */
+  
   .close-button {
     position: absolute;
     top: 10px;
@@ -41,16 +42,32 @@
   }
 
   .thumbnail-image {
-    width: 100px; /* Adjust the width to your desired size */
-    height: 100px; /* Adjust the height to your desired size */
-    object-fit: cover; /* This ensures the image retains its aspect ratio within the specified dimensions */
+    width: 100px; 
+    height: 100px; 
+    border-radius: 5px;
+    object-fit: cover; 
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   .item-details {
-    font-size: 1rem; /* Adjust the font size to your desired size */
+    font-size: 1rem; 
   }
 
   .cart-item {
     display: flex;
     align-items: center;
+  }
+
+  .mat-toolbar {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+  
+  .brand-name {
+    font-size: 25px;
+    color:rgb(255, 255, 255);
+    font-weight: bold;
+    font-style: italic;
   }

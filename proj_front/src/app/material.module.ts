@@ -14,11 +14,15 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatBadgeModule } from '@angular/material/badge'; 
 import {MatDividerModule} from '@angular/material/divider';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+
+
 
 
 
 const matModules: any[] = [
-  MatToolbarModule, MatButtonModule, MatIconModule, MatRadioModule, MatBadgeModule, MatDividerModule,
+  MatToolbarModule, MatButtonModule, MatListModule, MatIconModule, MatRadioModule, MatBadgeModule, MatTabsModule, MatDividerModule,
   MatInputModule, MatFormFieldModule, MatChipsModule, MatGridListModule, MatStepperModule, MatMenuModule, MatDialogModule, MatCardModule
 ]
 

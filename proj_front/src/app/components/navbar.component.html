@@ -1,11 +1,10 @@
 
   <p>
     <mat-toolbar color="primary">
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="span-space custom-font-size" routerLink="/home">Discover</span>
+      <span class="span-space custom-font-size" routerLink="/discover">Discover</span>
       <span class="span-space custom-font-size" *ngIf="!isLoggedIn" routerLink="/join">Join The Club</span>
+      <span class="example-spacer"></span>
+      <span class="brand-name custom-font-size" routerLink="/home">for the record</span>
       <span class="example-spacer"></span>
       <div *ngIf="isLoggedIn">
         <mat-menu #userMenu="matMenu">
@@ -28,28 +27,28 @@
       
      <!-- Slide-out Cart Column -->
       <div class="cart-column" [@slideInOut]="isCartColumnOpen ? 'visible' : 'closed'">
-        <!-- Close Button -->
         <button mat-icon-button class="close-button" (click)="closeCartColumn()">
           <mat-icon>close</mat-icon>
         </button>
         
         <div class="cart-content">
-          <!-- Cart Items -->
           <ng-container *ngIf="cartService.getCartItems().length > 0; else emptyCart">
             <p>Your cart</p>
             <div class="cart-item" *ngFor="let item of cartService.getCartItems()">
+              <button mat-icon-button color="warn" (click)="onRemoveFromCart(item)">
+                <mat-icon>close</mat-icon>
+              </button>
               <div class="item-thumbnail">
                 <img [src]="item.imgUrl" alt="item thumbnail" class="thumbnail-image">
               </div>
               <div class="item-details">
+                
                 <h5 class="item-name">{{ item.name }}</h5>
-                <p class="item-price">{{ item.price | currency:'SGD':'symbol':'1.2-2' }}</p>
+                <p class="item-price">{{ item.price | currency:'USD':'symbol':'1.2-2' }}</p>
               </div>
-              <button mat-icon-button color="warn" (click)="onRemoveFromCart(item)">
-                <mat-icon>close</mat-icon>
-              </button>
+              
             </div>
-            <p>Total Price: {{ getTotalPrice() | currency:'SGD':'symbol':'1.2-2' }}</p>
+            <p>Total Price: {{ getTotalPrice() | currency:'USD':'symbol':'1.2-2' }}</p>
             <button mat-raised-button color="accent" (click)="onCheckout()">Checkout</button>
           </ng-container>
           <ng-template #emptyCart>
@@ -57,10 +56,6 @@
           </ng-template>
         </div>
       </div>
-
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
     </mat-toolbar>
   </p>
 

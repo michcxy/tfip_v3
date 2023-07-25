@@ -1,10 +1,17 @@
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .container {
   max-width: 90%;
   margin: 0 auto;
   padding: 20px;
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Adjust the column proportions as needed */
-  grid-gap: 0px;
+  align-content: center;
+  grid-gap: 20px;
 }
 
 .centered-div {
@@ -15,40 +22,17 @@ button {
   margin: 5px;
 }
 
-
-/* .mat-card {
-  position: relative;
-} */
-
-/* .left-card {
-  width: 400px; 
-  height: 600px; 
-  background-color: transparent;
-  color: white;
-} */
-
-.left-card {
-  width: 400px; /* Adjust the width as needed */
-  height: 400px; /* Adjust the height as needed */
-  background-color: transparent;
-  color: white;
-}
-
-.right-card {
- 
-  width: 600px; /* Adjust the width as needed */
-  height: 400px; /* Adjust the height as needed */
-  background-color: #333;
-  color:white;
-  background-color: transparent;
-}
-
 .edit-button {
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  right: 30px;
 }
 
+.delete-button {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+}
 
 h1 {
   font-size: 3em;
@@ -56,20 +40,21 @@ h1 {
 
 .centered-content {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 300px; /* Make the content fill the card height */
-  
+  justify-content: center; 
+  align-items: center; 
+  height: 300px; 
 }
 
 /* Spotify music card made by: csozi | Website: www.csozi.hu*/
 
 .card {
   position: relative;
-  min-width: 250px;
-  min-height: 120px;
-  background: #333;
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 600px;
+  background: rgba(31, 31, 31, 0.7);
   border-radius: 10px;
+  border: 1px solid white;
   padding: .8rem;
   display: flex;
   flex-direction: column;

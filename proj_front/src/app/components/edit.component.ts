@@ -20,7 +20,7 @@ export class EditComponent {
 
   ngOnInit(): void {
     this.editForm = this.createForm();
-  
+    console.info(this.accSvc.getUser);
     this.accSvc.getUserData().then(user => {
       if (user) {
         this.prefillForm(user);
@@ -63,7 +63,7 @@ export class EditComponent {
         console.info("updated user", updatedUser)
         console.info("thisuser", this.user)
         this.editForm.reset();
-        this.accSvc.emitUserUpdated(updatedUser); // Emit the updated user
+        this.accSvc.emitUserUpdated(updatedUser); 
         this.router.navigate(['/summary']);
       })
       .catch(err => {

@@ -1,29 +1,45 @@
-<h2>Cart Items</h2>
-<ul>
-  <li *ngFor="let item of cartItems">
-    <div class="cart-item">
-      <!-- Item Thumbnail -->
+<ng-container>
+
+<div class="loading-wrapper" [class.hidden]="!checkoutProcessing">
+  <div class="loader">
+    <li class="ball"></li>
+    <li class="ball"></li>
+    <li class="ball"></li>
+  </div>
+</div>
+<div class="cart-content">
+
+  <div><h1><strong>Your Cart</strong></h1></div>
+  <ng-container *ngIf="cartService.getCartItems().length > 0; else emptyCart">
+    <div class="cart-item" *ngFor="let item of cartService.getCartItems()">
+      <button class="button-margin" mat-icon-button color="warn" (click)="onRemoveFromCart(item)">
+        <mat-icon>close</mat-icon>
+      </button>
       <div class="item-thumbnail">
         <img [src]="item.imgUrl" alt="item thumbnail" class="thumbnail-image">
       </div>
-      <!-- Item Details -->
       <div class="item-details">
-        <h5 class="item-name">{{ item.name }}</h5>
-        <p class="item-artist">Artist: {{ item.artist }}</p>
-        <p class="item-price">{{ item.price | currency:'SGD':'symbol':'1.2-2' }}</p>
+        
+        <h2 class="item-name">{{ item.name }}</h2>
+        <h3 class="item-price">{{ item.price | currency:'USD':'symbol':'1.2-2' }}</h3>
       </div>
-      <!-- Remove Button -->
-      <button mat-icon-button color="warn" (click)="onRemoveFromCart(item)">
-        <mat-icon>close</mat-icon>
-      </button>
+      
     </div>
-  </li>
-</ul>
-<!-- Total Price -->
-<p>Total Price: {{ getTotalPrice() | currency:'SGD':'symbol':'1.2-2' }}</p>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <h2>Total Price: {{ getTotalPrice() | currency:'USD':'symbol':'1.2-2' }}</h2>
 
-<button mat-raised-button color="accent" *ngIf="!accSvc.isLoggedIn();" (click)="openLoginDialog()">Login to checkout</button>
-<div [class.hidden]="!accSvc.isLoggedIn()">
+  </ng-container>
+  <ng-template #emptyCart>
+    <div><h3>There are no items in your cart</h3></div>
+  </ng-template>
+</div>
+
+<button class="button-margin" mat-raised-button color="accent" *ngIf="!accSvc.isLoggedIn();" (click)="openLoginDialog()">Login to checkout</button>
+
+<div [class.hidden]="!accSvc.isLoggedIn() || cartService.getCartItems().length === 0">
   <label class="input_label"><h2>Card Details</h2></label>
   <div class="input_container">
     
@@ -31,6 +47,7 @@
   </div>
   
   <div class="centered-div">
-      <button mat-raised-button color="accent" (click)="onCheckout(cartItems)">Proceed to checkout</button>
+      <button class="button-margin" mat-raised-button color="accent" (click)="onCheckout(cartItems)">Proceed to checkout</button>
   </div>
 </div>
+</ng-container>

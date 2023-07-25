@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import com.mongodb.client.result.UpdateResult;
 
 import mich.proj.models.Item;
+import mich.proj.models.MonthlyOrder;
 import mich.proj.models.PastOrders;
 import mich.proj.models.User;
 
@@ -46,6 +47,9 @@ public class AccountRepository {
     String editAccount = "UPDATE users SET address1 = ?, address2 = ?, postal = ?, phone = ?, genre = ?,plan = ? WHERE email = ?";
 
     String getAlbumsByArtist = "SELECT * FROM products WHERE artist = ?";
+
+    String deleteAccount = "DELETE FROM users WHERE email = ?";
+
 
     public String createAccount(User user){
         template.update(accountCreation, user.getFname(), user.getLname(), user.getEmail(), user.getPassword(), user.getAddress1(), user.getAddress2(), user.getPostal(), user.getPhone(), user.getGenre(), user.getPlan());
@@ -105,15 +109,7 @@ public class AccountRepository {
         System.out.println("order adding to mysql>>>>>");
         return orderId;
     }
-    
-    // public List<Item> getAllItems(String email) {
-    //    Query query = new Query(Criteria.where("email").is(email));
-    //     query.fields().exclude("_id");
-    //     Document document = mongoTemplate.findOne(query, Document.class, "orders");
-    //     List<Item> items = document.get("items", List.class);
-    //     // System.out.println(items);
-    //     return items;
-    // }
+
 
         public List<PastOrders> getAllItems(String email) {
         Query query = new Query(Criteria.where("email").is(email));
@@ -128,6 +124,11 @@ public class AccountRepository {
         String email = document.getString("email");
         String orderId = document.getString("orderId");
         Date orderDate = document.getDate("orderDate");
+
+        if (orderDate == null) {
+            orderDate = new Date();
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(orderDate);
         List<Document> pastPurchasesDocuments = document.getList("cartItems", Document.class);
@@ -149,21 +150,83 @@ public class AccountRepository {
         return new PastOrders(email, formattedDate, orderId, pastPurchases);
     }
 
+    //start of monthly orders
+    public List<MonthlyOrder> getMonthlyOrders(String email) {
+        Query query = new Query(Criteria.where("email").is(email));
+        query.fields().exclude("_id");
+        List<Document> documents = mongoTemplate.find(query, Document.class, "monthly_orders");
+        List<MonthlyOrder> monthlyOrders = documents.stream().map(this::mapDocumentToMonthlyOrder).collect(Collectors.toList());
+        System.out.println("GETALLITEMS IS RETURNING A LIST OF MONTHLY ORDERS >>>> " + monthlyOrders);
+        return monthlyOrders;
+    }
+
+    private MonthlyOrder mapDocumentToMonthlyOrder(Document document) {
+        MonthlyOrder monthlyOrder = new MonthlyOrder();
+        monthlyOrder.setEmail(document.getString("email"));
+
+        List<Document> monthlyRecords = (List<Document>) document.get("monthly_record");
+        List<MonthlyOrder.MonthlyRecord> records = monthlyRecords.stream().map(this::mapDocumentToMonthlyRecord).collect(Collectors.toList());
+        monthlyOrder.setMonthlyRecord(records);
+
+        return monthlyOrder;
+    }
+
+    private MonthlyOrder.MonthlyRecord mapDocumentToMonthlyRecord(Document document) {
+        MonthlyOrder.MonthlyRecord monthlyRecord = new MonthlyOrder.MonthlyRecord();
+        monthlyRecord.setDate(document.getString("date"));
+        monthlyRecord.setName(document.getString("name"));
+        monthlyRecord.setArtist(document.getString("artist"));
+        monthlyRecord.setGenre(document.getString("genre"));
+        monthlyRecord.setRating(document.getInteger("rating"));
+        monthlyRecord.setImgurl(document.getString("imgurl"));
+
+        List<Document> tracklist = (List<Document>) document.get("tracklist");
+        List<MonthlyOrder.Track> tracks = tracklist.stream().map(this::mapDocumentToTrack).collect(Collectors.toList());
+        monthlyRecord.setTracklist(tracks);
+
+        return monthlyRecord;
+    }
+
+    private MonthlyOrder.Track mapDocumentToTrack(Document document) {
+        MonthlyOrder.Track track = new MonthlyOrder.Track();
+        track.setTrackNumber(document.getInteger("trackNumber"));
+        track.setTitle(document.getString("title"));
+        return track;
+    }
+    //end of monthlyorders
+
+    // public String updateRating(String email, String itemName, int rating) {
+    //     System.out.println("ATTEMPTING TO UPDATE RATING" + itemName);
+    //     Query query = new Query(Criteria.where("email").is(email)
+    //     .and("cartItems").elemMatch(Criteria.where("name").is(itemName)));
+
+    //     Update update = new Update().set("cartItems.$.rating", rating);
+
+    //     UpdateResult result = mongoTemplate.updateFirst(query, update, "cart_orders");
+
+    //     if (result.getModifiedCount() > 0) {
+    //         return "Rating updated successfully.";
+    //     } else {
+    //         return "No order found for the given email and item name.";
+    //         }
+    //     }
+
     public String updateRating(String email, String itemName, int rating) {
-        System.out.println("ATTEMPTING TO UPDATE RATING" + itemName);
+        System.out.println("ATTEMPTING TO UPDATE RATING: " + itemName);
+    
         Query query = new Query(Criteria.where("email").is(email)
-        .and("cartItems").elemMatch(Criteria.where("name").is(itemName)));
-
-        Update update = new Update().set("cartItems.$.rating", rating);
-
-        UpdateResult result = mongoTemplate.updateFirst(query, update, "cart_orders");
-
+                .and("monthly_record.name").is(itemName));
+    
+        Update update = new Update().set("monthly_record.$.rating", rating);
+    
+        UpdateResult result = mongoTemplate.updateFirst(query, update, "monthly_orders");
+    
         if (result.getModifiedCount() > 0) {
             return "Rating updated successfully.";
         } else {
             return "No order found for the given email and item name.";
-}
         }
+    }
 
     public List<Item> getAlbumsbyArtist(String artistName) {
         List<Item> albums = template.query(getAlbumsByArtist, new Object[]{artistName}, BeanPropertyRowMapper.newInstance(Item.class));
@@ -182,5 +245,15 @@ public class AccountRepository {
         //insert
         System.out.println("INSERTING HISTORY" + cartItems);
         mongoTemplate.insert(document, "cart_orders");
+    }
+
+    public Optional<User> deleteAccount(User user) {
+        System.out.println("DELETING ACC@@@");
+        int rowsDeleted = template.update(deleteAccount, user.getEmail());
+            if (rowsDeleted > 0) {
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
     }
 }

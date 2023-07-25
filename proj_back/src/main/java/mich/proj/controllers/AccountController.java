@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mich.proj.models.CartRequest;
 import mich.proj.models.Item;
+import mich.proj.models.MonthlyOrder;
 import mich.proj.models.OrderRequest;
 import mich.proj.models.PastOrders;
 import mich.proj.models.UpdateRatingRequest;
@@ -153,6 +155,27 @@ public class AccountController {
 			
 		}
 
+		@DeleteMapping(path="/deleteAccount", consumes = MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public ResponseEntity<String> deleteAccount(@RequestBody User u) throws JsonProcessingException {
+			
+			System.out.println("CONTROLLER TO DELTE" + u);
+			Optional<User> userOptional = accSvc.deleteAccount(u);
+			if (userOptional.isPresent()) {
+				User user = userOptional.get();
+				ObjectMapper objectMapper = new ObjectMapper();
+				String userJson = objectMapper.writeValueAsString(user);
+				return ResponseEntity
+						.status(HttpStatus.ACCEPTED)
+						.body(userJson);
+			} else {
+				return ResponseEntity
+						.status(HttpStatus.NOT_FOUND)
+						.body("User not found");
+			}
+			
+		}
+
 		@PostMapping(path="/addOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
 		@ResponseBody
 		public ResponseEntity<User> addOrder(@RequestBody OrderRequest orderRequest) {
@@ -192,6 +215,15 @@ public class AccountController {
 		System.out.println(pastOrders);
 		return ResponseEntity.ok(pastOrders);
 	}
+
+	@GetMapping(path="/monthlyHistory")
+	@ResponseBody
+	public ResponseEntity<List<MonthlyOrder>> getMonthlyOrders(@RequestParam String email) {
+        System.out.println("ENTERING MONTHLY CONTROLLER");
+        List<MonthlyOrder> monthlyOrders = accSvc.getMonthlyOrders(email);
+        System.out.println(monthlyOrders);
+        return ResponseEntity.ok(monthlyOrders);
+    }
 
 	@PostMapping("/create-payment-intent")
 	@ResponseBody

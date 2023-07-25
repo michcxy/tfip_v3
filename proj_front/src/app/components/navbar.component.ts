@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AccountService } from '../account.service';
 import { Album, User } from '../models';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,8 +27,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
           display: 'block'
         }),
         animate('500ms ease-in')
-      ]), // Slide-in animation
-      transition('visible => closed', animate('500ms ease-in-out')) // Slide-out animation
+      ]), 
+      transition('visible => closed', animate('500ms ease-in-out'))
     ])
   ]
 })
@@ -48,11 +48,18 @@ export class NavbarComponent {
 
   currentUserEmail: string | null = null;
 
+  private reloadSubscription: Subscription;
+
   constructor(public cartService: CartService) {
     this.cartItems = this.cartService.getCartItems();
+    this.reloadSubscription = this.accSvc.reloadNavbar$.subscribe(() => {
+      // Perform your navbar reload logic here
+      console.log('Navbar Reloaded');
+    });
   }
   
   ngOnInit() {
+    
     if(this.accSvc.isLoggedIn() && this.accSvc.user != null) {
       console.log("user in init for nav", this.user)
       this.isLoggedIn = true
@@ -71,6 +78,10 @@ export class NavbarComponent {
     });
   }
   
+  ngOnDestroy() {
+    this.reloadSubscription.unsubscribe();
+  }
+
   openLoginDialog() {
     const dialogRef = this.matDialog.open(LoginComponent, {
     });

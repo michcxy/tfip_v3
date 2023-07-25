@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, inject } from '@angular/core';
 import { User, AuthenticateUser } from './models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject, catchError, map, of, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ import { Observable, Subject, catchError, map, of, tap, throwError } from 'rxjs'
 export class AccountService {
 
   http = inject(HttpClient)
+  router = inject(Router)
+
 
   private email: string | null = null;
 
@@ -18,6 +21,12 @@ export class AccountService {
   user: User | null = null;
 
   userUpdated: EventEmitter<User> = new EventEmitter<User>();
+
+  // Subject to notify the navbar about changes
+  private reloadNavbarSubject = new Subject<boolean>();
+
+  // Observable to subscribe to in the navbar component
+  reloadNavbar$ = this.reloadNavbarSubject.asObservable();
 
   constructor() {
     const user = localStorage.getItem("user")
@@ -89,6 +98,10 @@ export class AccountService {
 
   getItems(email: string): Observable<any[]> {
     return this.http.get<any[]>('/api/history', { params: { email } });
+  }
+
+  getMonthlyItems(email: string): Observable<any[]> {
+    return this.http.get<any[]>('/api/monthlyHistory', { params: { email } });
   }
 
   authenticateUser(email: string, password: string): Observable<boolean> {
@@ -174,18 +187,28 @@ export class AccountService {
     return this.http.post<any>('/api/editAccount', user)
   }
 
+  deleteAccount(user: User) {
+    console.info("attempting to delete", user);
+    return this.http.delete<any>('/api/deleteAccount', { body: user }).subscribe(
+      () => {
+        this.user = null; // Reset the user locally
+        this.router.navigate(['/home']); // Navigate to home after successful deletion
+      },
+      (error) => {
+        console.error('Error deleting account:', error);
+        // Handle any error that may occur during account deletion
+      }
+    );
+  }
+
+
   updateRating(email: string, itemName: string, rating: number) {
     const data = { email, itemName, rating };
     console.info(data);
     return this.http.post<any>('/api/updateRating', data)
   }
 
-
-
-
-
-
-
-
-
+  triggerNavbarReload() {
+    this.reloadNavbarSubject.next(true);
+  }
 }

@@ -17,6 +17,7 @@ export class HistoryComponent {
   rating!: number;
   items!: any[];
   itemName!: string;
+  monthlyItems!: any[];
 
   @ViewChild('itemNameRef') itemNameRef!: ElementRef;
 
@@ -25,7 +26,7 @@ export class HistoryComponent {
     console.info("history ngoninit email", email);
     if(email){
       this.fetchItems(email);
-      console.info("ngoninit fetch items", this.items);
+      this.fetchMonthlyItems(email);
     }
   }
 
@@ -34,30 +35,41 @@ export class HistoryComponent {
       .subscribe(
         items => {
           this.items = items;
-          // Process the received data (item array) here
-          console.log(this.items);
+          console.log("fetching past order items", this.items);
         },
         error => {
-          // Handle any errors that occur during the request
           console.error('Error:', error);
         }
       );
   }
+
+  fetchMonthlyItems(email: string): void {
+    this.accSvc.getMonthlyItems(email)
+      .subscribe(
+        monthlyItems => {
+          this.monthlyItems = monthlyItems;
+          console.info("ngoninit fetch monthly items", this.monthlyItems);
+        },
+        error => {
+          console.error('Error fetching monthly items:', error);
+        }
+      );
+  }
   
-  selectRating(item: any, rating: number) {
-    const email = this.accSvc.getEmail() ?? '';
-    this.itemName = this.itemNameRef.nativeElement.textContent;
-    console.log("item name:", this.itemName);
-    item.rating = rating; 
-    this.accSvc.updateRating(email, this.itemName, rating)
-    .subscribe(
-      () => {
-        console.log('Rating updated successfully');
-      },
-      (error) => {
-        console.error('Error updating rating:', error);
-      }
-    );
+  selectRating(monthlyRecord: any, rating: number) {
+    const email = this.accSvc.user?.email || "";
+    console.info("select rating's email", email)
+    monthlyRecord.rating = rating;
+  
+    this.accSvc.updateRating(email, monthlyRecord.name, rating)
+      .subscribe(
+        () => {
+          console.log('Rating updated successfully');
+        },
+        (error) => {
+          console.error('Error updating rating:', error);
+        }
+      );
   }
 
 

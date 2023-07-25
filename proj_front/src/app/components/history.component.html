@@ -1,56 +1,103 @@
-<div class="left-div">
-    <h2>Here are your past purchases! </h2>
 
-</div>
+<br>
+<br>
 
-<div *ngFor="let item of items">
-  <div class="order-label">
-    <div class="order-info">
-      <h5><strong>Order ID: {{ item.orderId }}</strong></h5>
-    </div>
-    <span class="spacer"></span>
-    <div class="order-info">
-      <h5><strong>Order Date: {{ item.orderDate }}</strong></h5>
-    </div>
-  </div>
-  <div *ngFor="let purchase of item.pastPurchases"></div>
-
-  <div class="image-wrapper" *ngFor="let purchase of item.pastPurchases">
-    <div class="image-content">
-      <img src="{{ purchase.imgUrl }}" alt="{{ purchase.name }}" class="small-image">
-    </div>
-    <div class="purchase-details">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <mat-card-subtitle>{{ purchase.artist }}</mat-card-subtitle>
-          <mat-card-title #itemNameRef>{{ purchase.name }}</mat-card-title>
-        </mat-card-header>
-        <div class="card-content-wrapper"> <!-- New wrapper div for Flexbox -->
-          <mat-card-content>
-            <mat-card-subtitle>Genre: {{ purchase.genre }}</mat-card-subtitle>
-            <!-- Add other content here -->
-          </mat-card-content>
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Long tab">
+    <div class="example-large-box mat-elevation-z4">
+      <ng-template mat-tab-label>
+        <div class="custom-tab-label"><h2><strong>Past Orders</strong></h2></div>
+      </ng-template>
+      <br>
+      <br>
+      <div *ngFor="let item of items">
+        <div class="order-label">
+          <div class="order-info">
+            <h5><strong>Order ID: {{ item.orderId }}</strong></h5>
+          </div>
+          <span class="spacer"></span>
+          <div class="order-info">
+            <h5><strong>Order Date: {{ item.orderDate }}</strong></h5>
+          </div>
         </div>
-        <!-- Use Flexbox to anchor the rating section to the bottom -->
-        <div class="rating-wrapper">
-          <mat-card-content>
-            <mat-divider></mat-divider>
-          </mat-card-content>
-          <mat-card-actions>
-            <!-- <div class="rating">
-              Rate this album:
-              <br>
-              <span class="star" [ngClass]="{'filled': item.rating >= 1}" (click)="selectRating(item, 1)"></span>
-              <span class="star" [ngClass]="{'filled': item.rating >= 2}" (click)="selectRating(item, 2)"></span>
-              <span class="star" [ngClass]="{'filled': item.rating >= 3}" (click)="selectRating(item, 3)"></span>
-              <span class="star" [ngClass]="{'filled': item.rating >= 4}" (click)="selectRating(item, 4)"></span>
-              <span class="star" [ngClass]="{'filled': item.rating >= 5}" (click)="selectRating(item, 5)"></span>
-            </div> -->
-          </mat-card-actions>
+        <div *ngFor="let purchase of item.pastPurchases">
+          <div class="image-wrapper">
+            <div class="image-content">
+              <img src="{{ purchase.imgUrl }}" alt="{{ purchase.name }}" class="small-image">
+            </div>
+            <div class="purchase-details">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-subtitle>{{ purchase.artist }}</mat-card-subtitle>
+                  <mat-card-title>{{ purchase.name }}</mat-card-title>
+                </mat-card-header>
+                <div class="card-content-wrapper"> <!-- New wrapper div for Flexbox -->
+                  <mat-card-content>
+                    <mat-card-subtitle>Genre: {{ purchase.genre }}</mat-card-subtitle>
+                  </mat-card-content>
+                </div>
+                <div class="rating-wrapper">
+                  <mat-card-content>
+                    <mat-divider></mat-divider>
+                  </mat-card-content>
+                  <mat-card-actions>
+
+                  </mat-card-actions>
+                </div>
+                <br>
+              </mat-card>
+              <hr>
+            </div>
+          </div>
         </div>
-        <br>
-      </mat-card>
-      <hr>
+      </div>
     </div>
-  </div>
-  
+  </mat-tab>
+  <mat-tab label="Short tab">
+    <div class="example-small-box mat-elevation-z4">
+      <ng-template mat-tab-label>
+        <div class="custom-tab-label"><h2><strong>Monthly Record</strong></h2></div>
+      </ng-template>
+      <div *ngFor="let monthlyOrder of monthlyItems">
+      <br>
+      <br>
+        <div *ngFor="let monthlyRecord of monthlyOrder.monthlyRecord">
+          <div class="image-wrapper">
+            <div class="order-info">
+              <h3><strong> {{ monthlyRecord.date }}</strong></h3>
+            </div>
+            <div class="image-content">
+              <img src="{{ monthlyRecord.imgurl }}" alt="{{ monthlyRecord.name }}" class="small-image">
+            </div>
+            <div class="purchase-details">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-subtitle>{{ monthlyRecord.artist }}</mat-card-subtitle>
+                  <mat-card-title #itemNameRef>{{ monthlyRecord.name }}</mat-card-title>
+                </mat-card-header>
+                <div class="card-content-wrapper">
+                  <mat-card-content>
+                    <mat-card-subtitle>Genre: {{ monthlyRecord.genre }}</mat-card-subtitle>
+                  </mat-card-content>
+                </div>
+                <div class="rating-wrapper" >
+                  <mat-card-actions>
+                    <div class="rating">
+                      Rate this album:
+                      <br>
+                      <span class="star" [ngClass]="{'filled': monthlyRecord.rating >= 1}" (click)="selectRating(monthlyRecord, 1)"></span>
+                      <span class="star" [ngClass]="{'filled': monthlyRecord.rating >= 2}" (click)="selectRating(monthlyRecord, 2)"></span>
+                      <span class="star" [ngClass]="{'filled': monthlyRecord.rating >= 3}" (click)="selectRating(monthlyRecord, 3)"></span>
+                      <span class="star" [ngClass]="{'filled': monthlyRecord.rating >= 4}" (click)="selectRating(monthlyRecord, 4)"></span>
+                      <span class="star" [ngClass]="{'filled': monthlyRecord.rating >= 5}" (click)="selectRating(monthlyRecord, 5)"></span>
+                    </div>
+                  </mat-card-actions>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

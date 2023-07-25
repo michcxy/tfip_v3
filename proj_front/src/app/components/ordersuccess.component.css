@@ -1,15 +1,17 @@
 
 
-.centered-div {
-    text-align: center;
+
+  .centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
-
-
 
 .card {
     overflow: hidden;
     position: relative;
-    text-align: left;
+    text-align: center;
     border-radius: 0.5rem;
     max-width: 590px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);

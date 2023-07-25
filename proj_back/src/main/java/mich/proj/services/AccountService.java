@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import mich.proj.models.Item;
+import mich.proj.models.MonthlyOrder;
 import mich.proj.models.PastOrders;
 import mich.proj.models.User;
 import mich.proj.repositories.AccountRepository;
@@ -77,6 +78,14 @@ public class AccountService {
 
     public void addCartOrder(List<Item> cartItems, String email) {
         accRepo.addCartOrder(cartItems, email);
+    }
+
+    public List<MonthlyOrder> getMonthlyOrders(String email){
+        return accRepo.getMonthlyOrders(email);
+    }
+
+    public Optional<User> deleteAccount(User user) {
+        return accRepo.deleteAccount(user);
     }
 
 

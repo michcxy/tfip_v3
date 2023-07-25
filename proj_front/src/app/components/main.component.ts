@@ -16,12 +16,12 @@ export class MainComponent {
   playlistId = '37i9dQZF1DZ06evO1X6Ic8';
   embedUrl!: SafeResourceUrl;
 
-  artistNameDefault: string = 'The 1975'; // Replace with the artist name you want to fetch
+  artistNameDefault: string = 'The 1975'; //default for presentation
   albums: Album[] = [];
 
   artistName: string = '';
   
-  constructor(private sanitizer: DomSanitizer, private cartService: CartService, private accSvc: AccountService) {}
+  constructor(private sanitizer: DomSanitizer, public cartService: CartService, private accSvc: AccountService) {}
 
   ngOnInit(): void {
 
@@ -44,7 +44,9 @@ export class MainComponent {
   }
 
   onAddToCart(album: Album) {
-    this.cartService.addToCart(album);
+    if (!this.cartService.isItemInCart(album)) {
+      this.cartService.addToCart(album);
+    }
   }
 
 }
