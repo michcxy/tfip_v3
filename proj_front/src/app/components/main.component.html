@@ -1,43 +1,47 @@
-<!-- <div class="image-container">
-<img src="https://www.vdcgroup.com/wp-content/uploads/2020/03/homepage-banner-img03.jpg" alt="Banner">
-</div> -->
 
-<!-- style="max-width: 400px; margin: 0 auto;" -->
-
-<div class="left-div">
-    <h2>This week's artist spotlight: </h2>
-</div>
-<div class="container">
-    <div class="left-div">
-      <iframe
-        title="Spotify Embed: Recommendation Playlist"
-        [src]="embedUrl"
-        width="90%"
-        height="600"
-        frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        [attr.loading]="'lazy'"
-      ></iframe>
-    </div>
-
-    <div class="right-div">
-
-        <img src="https://muzikspeaks.files.wordpress.com/2015/06/the-1975-banner.jpeg" class="banner">
-     
-        <h2>Like what you hear?</h2>
-
-        <div class="image-container">
-          <div class="image-wrapper" *ngFor="let album of albums">
-            <img [src]="album.imgUrl" class="small-image" alt="album">
-            <h3 class="album-name">{{ album.name }}</h3>
-            <span>By: {{ album.artist }}</span>
-            <span>{{ album.price }}</span>
-            <button mat-raised-button color="accent" class="image-button" (click)="onAddToCart(album)">Add On</button>
-          </div>
-        </div>
-        <br>
-        <h5>*Add ons will be sent out together with your next delivery.</h5>
-      </div>      
-  </div>
   
+    <div class="left-div">
+      <h2>This week's artist spotlight: </h2>
+  </div>
+  <div class="container">
+      <div class="left-div">
+        <iframe
+          title="Spotify Embed: Recommendation Playlist"
+          [src]="embedUrl"
+          width="90%"
+          height="600"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          [attr.loading]="'lazy'"
+        ></iframe>
+      </div>
+  
+      <div class="right-div">
+  
+          <img src="https://muzikspeaks.files.wordpress.com/2015/06/the-1975-banner.jpeg" class="banner">
+       
+          <h2>Like what you hear?</h2>
+  
+          <div class="image-container">
+            <div class="image-wrapper" *ngFor="let album of albums">
+              <div class="card">
+                <img [src]="album.imgUrl" class="small-image" alt="album">
+                <div class="card__content">
+                <p class="card__title">Track List</p>
+                <p class="card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+              </div>
+              <div><br></div>
+              </div>
+              <h3 class="album-name">{{ album.name }}</h3>
+              <span>By: {{ album.artist }}</span>
+              <span>${{ album.price }}</span>
+              <button mat-raised-button color="accent" class="image-button" (click)="onAddToCart(album)">Add To Cart</button>
+            </div>
+          </div>
+          <br>
+          <!-- <h5>*Add ons will be sent out together with your next delivery.</h5> -->
+        </div>      
+    </div>
+  
+
   

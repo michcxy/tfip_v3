@@ -175,6 +175,7 @@ public class AccountController {
 	@PostMapping("/create-payment-intent")
 	@ResponseBody
 		public ResponseEntity<?> createPaymentIntent() {
+			System.out.println("calling controller payment");
 			// Set your Stripe secret key
 			Stripe.apiKey = stripeSecretKey;
 

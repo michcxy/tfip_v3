@@ -7,6 +7,8 @@ import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 
+import * as L from 'leaflet';
+
 
 @Component({
   selector: 'app-subcheckout',
@@ -16,6 +18,7 @@ import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/s
 
 export class SubcheckoutComponent {
 
+  @ViewChild('mapContainer') mapContainer!: ElementRef; // Add '!' for definite assignment
   signupForm!: FormGroup
   fb = inject(FormBuilder)
   router = inject(Router)
@@ -24,6 +27,8 @@ export class SubcheckoutComponent {
   plan!: string;
   genre!: string;
   total!: number;
+  streetName: string = ''; // Variable to store the street name
+  isAddress1Editable: boolean = false;
 
   private stripePromise!: Promise<Stripe | null>;
   private elements!: StripeElements;
@@ -62,6 +67,8 @@ export class SubcheckoutComponent {
     // Load Stripe.js asynchronously and initialize the elements
     this.loadStripe();
   }
+
+ 
 
   createAccount() {
     if (this.signupForm) { // Check if signupForm is not null
@@ -209,7 +216,51 @@ export class SubcheckoutComponent {
     }
   }
 
+  getLocation() {
+    const postalCode = this.signupForm.get('postal')?.value;
 
+    if (!postalCode) {
+      console.error('Please enter a postal code.');
+      return;
+    }
+
+    const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+      postalCode
+    )}&format=json&countrycodes=SG`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          const lat = parseFloat(data[0].lat);
+          const lon = parseFloat(data[0].lon);
+          const map = L.map(this.mapContainer.nativeElement).setView([lat, lon], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+          L.marker([lat, lon]).addTo(map);
+
+          // Reverse geocoding
+          const reverseGeocodingUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=18`;
+          fetch(reverseGeocodingUrl)
+            .then((response) => response.json())
+            .then((locationData) => {
+              if (locationData.address) {
+                const blockNumber = locationData.address.house_number || locationData.address.house;
+                const streetName = locationData.address.road;
+
+                this.streetName = blockNumber ? `${blockNumber}, ${streetName}` : streetName;
+
+                // Set the address1 FormControl value with the street name
+                this.signupForm.get('address1')?.setValue(this.streetName);
+                this.isAddress1Editable = true; // Enable the input after setting the value
+              }
+            })
+            .catch((error) => console.error('Error fetching location:', error));
+        } else {
+          console.error('Location not found.');
+        }
+      })
+      .catch((error) => console.error('Error fetching location:', error));
+  }
 }
 
 

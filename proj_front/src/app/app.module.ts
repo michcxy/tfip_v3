@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 
@@ -23,6 +24,7 @@ import { HistoryComponent } from './components/history.component';
 import { SubcheckoutComponent } from './components/subcheckout.component';
 import { CartComponent } from './components/cart.component';
 import { AuthGuard } from './auth.guard';
+import { OrdersuccessComponent } from './components/ordersuccess.component';
 
 const appRoute: Routes = [
   { path: '', component: MainComponent, title: 'Main' },
@@ -36,6 +38,7 @@ const appRoute: Routes = [
   { path: 'history', component: HistoryComponent, title: 'History', canActivate:[AuthGuard] },
   { path: 'cart', component: CartComponent, title: 'Cart' },
   { path: 'subcheckout', component: SubcheckoutComponent, title: 'SubCheckout'},
+  { path: 'ordersuccess', component: OrdersuccessComponent, title: 'OrderSuccess'},
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ]
 
@@ -52,7 +55,8 @@ const appRoute: Routes = [
     EditComponent,
     HistoryComponent,
     SubcheckoutComponent,
-    CartComponent
+    CartComponent,
+    OrdersuccessComponent
     ],
   imports: [
     BrowserModule,
@@ -61,7 +65,8 @@ const appRoute: Routes = [
     RouterModule.forRoot(appRoute, {useHash:true}),
     SocialLoginModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [ {
     provide: 'SocialAuthServiceConfig',

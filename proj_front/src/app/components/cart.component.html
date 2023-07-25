@@ -22,12 +22,15 @@
 <!-- Total Price -->
 <p>Total Price: {{ getTotalPrice() | currency:'SGD':'symbol':'1.2-2' }}</p>
 
-<label class="input_label"><h2>Card Details</h2></label>
-<div class="input_container">
+<button mat-raised-button color="accent" *ngIf="!accSvc.isLoggedIn();" (click)="openLoginDialog()">Login to checkout</button>
+<div [class.hidden]="!accSvc.isLoggedIn()">
+  <label class="input_label"><h2>Card Details</h2></label>
+  <div class="input_container">
+    
+    <div class="stripe" id="card-element" #cardElement></div>
+  </div>
   
-  <div class="stripe" id="card-element" #cardElement></div>
-</div>
-
-<div class="centered-div">
-    <button mat-raised-button color="accent" (click)="onCheckout(cartItems)">Proceed to checkout</button>
+  <div class="centered-div">
+      <button mat-raised-button color="accent" (click)="onCheckout(cartItems)">Proceed to checkout</button>
+  </div>
 </div>

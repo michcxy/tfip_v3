@@ -206,3 +206,22 @@ form.hidden {
   align-items: center;
   z-index: 999; /* Optional: Ensure the loader is above the form */
 }
+
+.find-button {
+  position: absolute;
+  right: 0px;
+  bottom: 9px;
+}
+
+.map-container {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 5px; /* Adjust this value to control the rounding amount */
+  overflow: hidden; /* Clip the map within the rounded container */
+}
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 120%;
+    background-image: url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhY2slMjBhYnN0cmFjdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }

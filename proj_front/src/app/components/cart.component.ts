@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Album, User } from '../models';
 
@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 import { AccountService } from '../account.service';
 import { firstValueFrom } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from './login.component';
 
 
 
@@ -25,15 +27,16 @@ export class CartComponent {
 
   checkoutProcessing: boolean = false
   total!: number;
+
+  matDialog = inject(MatDialog)
   
-  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService, private accSvc: AccountService) {
+  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService, public accSvc: AccountService) {
     this.cartItems = this.cartService.getCartItems();
     this.stripePromise = loadStripe('pk_test_51NVFboEA5fTQ7JwcGPgphMkYEO5XnY40M3GiHhQPOnFvlbiHWYsd3kQmX8f2wscq4VxXsTgGSxakUkcZXqHFjw3300kiYywWLu');
   }
 
-
   ngOnInit() {
-
+    
   }
 
   ngAfterViewInit() {
@@ -121,7 +124,7 @@ export class CartComponent {
 
               console.log(paymentIntent);
               this.cartService.setCartItems([]);
-              this.router.navigate(['/summary']);
+              this.router.navigate(['/ordersuccess']);
                }
           });
         })
@@ -131,6 +134,16 @@ export class CartComponent {
     })
     .catch((error) => {
       console.error("Error creating PaymentIntent:", error);
+    });
+  }
+
+  openLoginDialog() {
+    const dialogRef = this.matDialog.open(LoginComponent, {
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The Login dialog was closed');
+      console.log(result);
     });
   }
 
